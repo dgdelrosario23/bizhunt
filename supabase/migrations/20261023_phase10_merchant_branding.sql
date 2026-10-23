@@ -13,8 +13,8 @@ alter table public.businesses add constraint businesses_profile_lengths check (
  length(phone)<=40 and length(opening_hours)<=180 and length(website)<=240 and length(instagram)<=100
 );
 alter table public.businesses add constraint businesses_media_paths check (
- (logo_path is null or logo_path ~ '^[0-9a-f-]{36}/[0-9a-f-]{36}/logo/[0-9a-f-]{36}\\.(png|jpg|webp)$')
- and (cover_path is null or cover_path ~ '^[0-9a-f-]{36}/[0-9a-f-]{36}/cover/[0-9a-f-]{36}\\.(png|jpg|webp)$')
+ (logo_path is null or logo_path ~ '^[0-9a-f-]{36}/[0-9a-f-]{36}/logo/[0-9a-f-]{36}[.](png|jpg|webp)$')
+ and (cover_path is null or cover_path ~ '^[0-9a-f-]{36}/[0-9a-f-]{36}/cover/[0-9a-f-]{36}[.](png|jpg|webp)$')
 );
 insert into storage.buckets (id,name,public,file_size_limit,allowed_mime_types)
 values ('bizhunt-business-media','bizhunt-business-media',true,3145728,array['image/png','image/jpeg','image/webp'])
@@ -24,7 +24,7 @@ with check (bucket_id='bizhunt-business-media'
  and (storage.foldername(name))[1]=auth.uid()::text
  and exists (select 1 from public.businesses b where b.owner_id=auth.uid() and b.id::text=(storage.foldername(name))[2])
  and (storage.foldername(name))[3] in ('logo','cover')
- and name ~ '^[0-9a-f-]{36}/[0-9a-f-]{36}/(logo|cover)/[0-9a-f-]{36}\\.(png|jpg|webp)$');
+ and name ~ '^[0-9a-f-]{36}/[0-9a-f-]{36}/(logo|cover)/[0-9a-f-]{36}[.](png|jpg|webp)$');
 -- Public bucket permits public image downloads, but not anonymous uploads.
 -- Deliberately no UPDATE/DELETE storage policy: uploaded files are immutable.
 -- Unreferenced images can be cleaned by an administrator after the pilot.
