@@ -38,10 +38,10 @@ begin
  then raise exception 'Too many codes. Please wait a minute'; end if;
  update public.visit_tokens set consumed_at=now()
  where customer_id=auth.uid() and consumed_at is null;
- v_token:=encode(gen_random_bytes(24),'hex');
+ v_token:=substr(replace(gen_random_uuid()::text,'-','')||replace(gen_random_uuid()::text,'-',''),1,48);
  v_exp:=now()+interval '90 seconds';
  insert into public.visit_tokens(customer_id,token_hash,expires_at)
- values(auth.uid(),encode(digest(v_token,'sha256'),'hex'),v_exp);
+ values(auth.uid(),encode(sha256(convert_to(v_token,'UTF8')),'hex'),v_exp);
  return query select v_token,v_exp;
 end $$;
 
@@ -59,7 +59,7 @@ begin
  where c.id=p_campaign and c.active and b.owner_id=auth.uid();
  if v_goal is null then raise exception 'Merchant is not authorized for this campaign'; end if;
  select t.id,t.customer_id into v_token_id,v_customer
- from public.visit_tokens t where t.token_hash=encode(digest(p_token,'sha256'),'hex')
+ from public.visit_tokens t where t.token_hash=encode(sha256(convert_to(p_token,'UTF8')),'hex')
  and t.consumed_at is null and t.expires_at>now() for update;
  if v_token_id is null then raise exception 'Code expired or already used'; end if;
  if v_customer=auth.uid() then raise exception 'Cannot approve your own visit'; end if;
