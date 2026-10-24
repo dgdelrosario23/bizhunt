@@ -16,7 +16,21 @@ create table if not exists public.emergency_contacts (
  name text not null check (char_length(name) between 2 and 140),
  category text not null check(category in ('Fire','Police','Ambulance','Hospital ER','Disaster Rescue')),
  area text not null,
- phone text not null check(phone ~ '^\\+?[0-9() -]{3,25}$'),
+ phone text not null check(phone ~ '^[+]?[0-9() -]{3,25}),
+ address text not null default '',
+ source_url text not null default '',
+ verified_at timestamptz not null,
+ published boolean not null default false,
+ created_at timestamptz not null default now()
+);
+alter table public.emergency_contacts enable row level security;
+drop policy if exists "Public verified emergency contacts" on public.emergency_contacts;
+create policy "Public verified emergency contacts" on public.emergency_contacts
+ for select to anon,authenticated using (published and verified_at is not null);
+revoke insert,update,delete on public.emergency_contacts from anon,authenticated;
+grant select on public.emergency_contacts to anon,authenticated;
+comment on table public.emergency_contacts is 'Admin-curated emergency numbers only. Verify with the responsible agency before publishing. Never use as a merchant self-service directory.';
+),
  address text not null default '',
  source_url text not null default '',
  verified_at timestamptz not null,
