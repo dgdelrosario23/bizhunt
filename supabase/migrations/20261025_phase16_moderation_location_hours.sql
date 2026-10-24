@@ -72,3 +72,22 @@ grant execute on function public.bizhunt_moderate(text,uuid,text) to authenticat
 create unique index if not exists bizhunt_reports_dedup_pending
  on public.content_reports(reporter_id,business_id,coalesce(review_id,'00000000-0000-0000-0000-000000000000'::uuid))
  where status in ('pending','reviewing');
+
+-- Harden Phase 15: merchant inserts must not self-assign verified status.
+create or replace function public.bizhunt_protect_verification()
+returns trigger language plpgsql set search_path='' as $$
+begin
+ if current_user not in ('postgres','service_role') then
+  if tg_op='INSERT' and new.verification_status<>'unverified' then
+   raise exception 'Business verification can only be assigned by an administrator';
+  end if;
+  if tg_op='UPDATE' and new.verification_status is distinct from old.verification_status then
+   raise exception 'Business verification can only be changed by an administrator';
+  end if;
+ end if;
+ return new;
+end $$;
+drop trigger if exists bizhunt_protect_verification_insert on public.businesses;
+create trigger bizhunt_protect_verification_insert before insert on public.businesses
+ for each row execute function public.bizhunt_protect_verification();
+-- The existing Phase 15 update trigger continues to use the hardened function.
