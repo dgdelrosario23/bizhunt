@@ -11,11 +11,18 @@ create table if not exists public.bizhunt_notifications(
 create index if not exists bizhunt_notifications_user_date on public.bizhunt_notifications(user_id,created_at desc);
 alter table public.bizhunt_notifications enable row level security;
 revoke all on public.bizhunt_notifications from anon,authenticated;
-grant select,update on public.bizhunt_notifications to authenticated;
+grant select on public.bizhunt_notifications to authenticated;
 drop policy if exists "Notification recipient can read" on public.bizhunt_notifications;
 create policy "Notification recipient can read" on public.bizhunt_notifications for select to authenticated using(user_id=auth.uid());
 drop policy if exists "Notification recipient can mark read" on public.bizhunt_notifications;
 create policy "Notification recipient can mark read" on public.bizhunt_notifications for update to authenticated using(user_id=auth.uid()) with check(user_id=auth.uid());
+create or replace function public.bizhunt_mark_notification_read(p_id uuid) returns void language plpgsql security definer set search_path=public as $
+begin
+ if auth.uid() is null then raise exception 'Sign in required'; end if;
+ update public.bizhunt_notifications set read_at=coalesce(read_at,now()) where id=p_id and user_id=auth.uid();
+end $;
+revoke all on function public.bizhunt_mark_notification_read(uuid) from public,anon;
+grant execute on function public.bizhunt_mark_notification_read(uuid) to authenticated;
 -- Do not allow client-controlled notification insertion.
 create table if not exists public.bizhunt_referral_codes(
  user_id uuid primary key references auth.users(id) on delete cascade,
