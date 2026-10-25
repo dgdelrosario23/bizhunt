@@ -16,11 +16,11 @@ drop policy if exists "Notification recipient can read" on public.bizhunt_notifi
 create policy "Notification recipient can read" on public.bizhunt_notifications for select to authenticated using(user_id=auth.uid());
 drop policy if exists "Notification recipient can mark read" on public.bizhunt_notifications;
 create policy "Notification recipient can mark read" on public.bizhunt_notifications for update to authenticated using(user_id=auth.uid()) with check(user_id=auth.uid());
-create or replace function public.bizhunt_mark_notification_read(p_id uuid) returns void language plpgsql security definer set search_path=public as $
+create or replace function public.bizhunt_mark_notification_read(p_id uuid) returns void language plpgsql security definer set search_path=public as $notification_read$
 begin
  if auth.uid() is null then raise exception 'Sign in required'; end if;
  update public.bizhunt_notifications set read_at=coalesce(read_at,now()) where id=p_id and user_id=auth.uid();
-end $;
+end $notification_read$;
 revoke all on function public.bizhunt_mark_notification_read(uuid) from public,anon;
 grant execute on function public.bizhunt_mark_notification_read(uuid) to authenticated;
 -- Do not allow client-controlled notification insertion.
