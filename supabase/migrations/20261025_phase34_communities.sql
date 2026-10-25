@@ -102,3 +102,12 @@ grant execute on function public.bizhunt_is_community_admin(uuid) to authenticat
 grant execute on function public.bizhunt_join_community(uuid) to authenticated;
 grant execute on function public.bizhunt_manage_community_member(uuid,uuid,boolean) to authenticated;
 grant execute on function public.bizhunt_create_community(text,text,text,text,text,text) to authenticated;
+
+-- Private invite links expose only limited metadata until membership is approved.
+create or replace function public.bizhunt_community_invite(p_id uuid)
+returns table(id uuid,name text,category text,city text,visibility text)
+language sql stable security definer set search_path=public as $community_invite$
+ select c.id,c.name,c.category,c.city,c.visibility from public.bizhunt_communities c where c.id=p_id
+$community_invite$;
+revoke all on function public.bizhunt_community_invite(uuid) from public;
+grant execute on function public.bizhunt_community_invite(uuid) to authenticated;
