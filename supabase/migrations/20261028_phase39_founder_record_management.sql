@@ -62,7 +62,7 @@ begin
  if p_type not in ('users','businesses') or p_action not in ('update','delete') then raise exception 'Invalid action';end if;
  if p_type='users' and not exists(select 1 from auth.users where id=p_id) then raise exception 'User not found';end if;
  if p_type='businesses' and not exists(select 1 from public.businesses where id=p_id) then raise exception 'Business not found';end if;
- code=lpad(floor(random()*1000000)::text,6,'0');
+ code=encode(gen_random_bytes(12),'hex');
  insert into public.bizhunt_founder_challenges(actor_id,entity_type,entity_id,action,code_hash,expires_at)
  values(auth.uid(),p_type,p_id,p_action,md5(code),now()+interval '5 minutes')
  on conflict(actor_id) do update set entity_type=excluded.entity_type,entity_id=excluded.entity_id,
