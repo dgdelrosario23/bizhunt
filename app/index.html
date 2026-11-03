@@ -106,7 +106,7 @@ function organizeProfile(){
  const buttons=[...menu.querySelectorAll(".profile-menu-item")];
  const byId=new Map([...detail.querySelectorAll("[data-profile-section]")].map((panel,i)=>[panel.dataset.profileSection,buttons[i]]));
  const header=menu.querySelector(".profile-menu-header");
- menu.replaceChildren(header);
+ menu.replaceChildren(header);const explorer=document.createElement("div");explorer.innerHTML=explorerCard();if(explorer.firstElementChild)menu.append(explorer.firstElementChild);
  const account=byId.get("profile");if(account){account.classList.add("profile-account-link");menu.append(account)}
  const primary=document.createElement("div");primary.className="profile-tile-grid";primary.setAttribute("aria-label","Business and community shortcuts");
  for(const id of ["businesses","following","saved","collections"]){const button=byId.get(id);if(button){button.classList.add("profile-tile");button.querySelector(".profile-menu-chevron")?.remove();primary.append(button)}}const groupsTile=document.createElement("button");groupsTile.type="button";groupsTile.className="profile-menu-item profile-tile";groupsTile.innerHTML='<span class="profile-menu-icon">👥</span><span>My groups</span>';groupsTile.onclick=()=>{location.href="../communities/"};primary.append(groupsTile);
