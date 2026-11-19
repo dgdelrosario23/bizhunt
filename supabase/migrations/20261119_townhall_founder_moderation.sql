@@ -43,3 +43,6 @@ begin
 end $$;
 revoke all on function public.bizhunt_townhall_manage(uuid,text,text) from public;
 grant execute on function public.bizhunt_townhall_manage(uuid,text,text) to authenticated;
+
+-- Allow the UI to check whether to display founder controls.
+grant execute on function public.bizhunt_founder_authorized() to authenticated;
