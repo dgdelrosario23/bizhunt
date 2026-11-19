@@ -251,6 +251,7 @@ function organizeProfile(){
  const account=byId.get("profile");if(account){account.classList.add("profile-account-link");menu.append(account)}
  const primary=document.createElement("div");primary.className="profile-tile-grid";primary.setAttribute("aria-label","Business and community shortcuts");
  for(const id of ["businesses","following","saved","collections"]){const button=byId.get(id);if(button){button.classList.add("profile-tile");button.querySelector(".profile-menu-chevron")?.remove();primary.append(button)}}const groupsTile=document.createElement("button");groupsTile.type="button";groupsTile.className="profile-menu-item profile-tile";groupsTile.innerHTML='<span class="profile-menu-icon">👥</span><span>My groups</span>';groupsTile.onclick=()=>{location.href="../communities/"};primary.append(groupsTile);
+ const townHallTile=document.createElement("button");townHallTile.type="button";townHallTile.className="profile-menu-item profile-tile";townHallTile.innerHTML='<span class="profile-menu-icon">🏛️</span><span>Town Hall</span>';townHallTile.onclick=()=>{location.href="../townhall/"};primary.append(townHallTile);
  menu.append(primary);
  const invite=detail.querySelector('[data-profile-section="invite"]');
  if(invite){invite.classList.add("profile-invite-inline");invite.hidden=false;menu.append(invite)}
