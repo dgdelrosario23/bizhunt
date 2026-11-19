@@ -62,4 +62,4 @@ grant execute on function public.bizhunt_founder_curated_media_save(text,text,te
 drop policy if exists "founder curated photo uploads" on storage.objects;
 create policy "founder curated photo uploads" on storage.objects for insert to authenticated
 with check (bucket_id='bizhunt-business-media' and name like 'founder-curated/%'
- and exists (select 1 from public.bizhunt_admins where user_id=auth.uid()));
+ and public.bizhunt_founder_authorized());
