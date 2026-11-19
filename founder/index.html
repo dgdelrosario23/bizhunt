@@ -72,7 +72,10 @@ async function loadCuratedEditor(){
  const el=$("curatedEditorBody");el.innerHTML='<p class="muted">Loading listings…</p>';
  const r=await db.rpc("bizhunt_founder_curated_records",{p_search:"",p_limit:500,p_offset:0});
  if(r.error){el.innerHTML='<p class="error">'+esc(r.error.message)+'</p>';return}
- curatedEditorRecords=r.data||[];
+ const media=await db.from("bizhunt_curated_businesses").select("id,logo_path,cover_path,gallery_paths,opening_hours,weekly_hours,phone,website,instagram").limit(500);
+ if(media.error){el.innerHTML='<p class="error">'+esc(media.error.message)+'</p>';return}
+ const byId=new Map((media.data||[]).map(x=>[String(x.id),x]));
+ curatedEditorRecords=(r.data||[]).map(x=>({...x,...(byId.get(String(x.id))||{})}));
  el.innerHTML='<label>Choose a community listing<select id="curatedEditorSelect"><option value="">Select a business…</option>'+curatedEditorRecords.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join("")+'</select></label><div id="curatedEditorFormHost"></div>';
  $("curatedEditorSelect").onchange=()=>showCuratedEditor($("curatedEditorSelect").value);
 }
