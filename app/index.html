@@ -652,13 +652,14 @@ document.querySelectorAll("[data-community-deal-expand]").forEach(el=>el.onclick
   const btn=overlay.querySelector("#bhWalletRedeemRefresh"),image=overlay.querySelector("#bhWalletRedeemImage"),code=overlay.querySelector("#bhWalletRedeemCode"),status=overlay.querySelector("#bhWalletRedeemStatus");
   stopWatching();btn.disabled=true;image.replaceChildren();code.textContent="";status.textContent="Generating secure redemption QR…";
   try{
+   const requestedAt=new Date().toISOString();
    const result=await db.rpc("create_typed_visit_token",{p_campaign:campaignId,p_action:"redeem"});
    if(result.error)throw result.error;
    const data=result.data?.[0];if(!data?.token||!data?.expires_at)throw Error("No valid redemption code returned.");
    if(!overlay.isConnected)return;
    code.textContent=data.token;
    status.textContent="Expires: "+new Date(data.expires_at).toLocaleTimeString();
-   if(window.QRCode)new QRCode(image,{text:data.token,width:205,height:205});else image.textContent="QR unavailable. Show the code above.";watchRedemption(new Date().toISOString());
+   if(window.QRCode)new QRCode(image,{text:data.token,width:205,height:205});else image.textContent="QR unavailable. Show the code above.";watchRedemption(requestedAt);
   }catch(e){if(overlay.isConnected)status.textContent="Unable to generate redemption QR: "+e.message}
   finally{if(overlay.isConnected)btn.disabled=false}
  };
