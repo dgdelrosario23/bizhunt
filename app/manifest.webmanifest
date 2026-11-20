@@ -4,7 +4,7 @@
   "start_url": "/bizhunt/app/",
   "scope": "/bizhunt/",
   "display": "standalone",
-  "background_color": "#f3f6fc",
+  "background_color": "#ffffff",
   "theme_color": "#273880",
   "description": "Discover and support local businesses in Pampanga",
   "icons": [
@@ -12,7 +12,13 @@
       "src": "./icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ]
 }
