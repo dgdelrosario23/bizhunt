@@ -624,10 +624,33 @@ document.querySelectorAll("[data-community-deal-expand]").forEach(el=>el.onclick
  const overlay=document.createElement("div");overlay.id="bhWalletRedeemOverlay";overlay.className="bh-wallet-redeem-overlay";
  overlay.innerHTML='<section class="bh-wallet-redeem-dialog" role="dialog" aria-modal="true" aria-labelledby="bhWalletRedeemTitle"><button type="button" class="bh-wallet-redeem-close" aria-label="Close redemption QR">×</button><h2 id="bhWalletRedeemTitle">Redeem reward</h2><p class="muted">'+esc(campaign.name)+' · '+esc(campaign.reward)+'</p><div id="bhWalletRedeemImage" class="qr"></div><p id="bhWalletRedeemCode" class="code"></p><p id="bhWalletRedeemStatus" class="muted">Generating secure redemption QR…</p><button type="button" id="bhWalletRedeemRefresh" class="btn full">Generate fresh redemption QR</button><p class="bh-qr-security">Single-use · Expires after 90 seconds · Merchant confirmation required</p></section>';
  document.body.append(overlay);
- const close=()=>overlay.remove();overlay.querySelector(".bh-wallet-redeem-close").onclick=close;overlay.onclick=e=>{if(e.target===overlay)close()};
+ let redemptionPoll=null,redemptionChecking=false,redemptionGeneration=0;
+ const stopWatching=()=>{redemptionGeneration++;if(redemptionPoll!==null){clearInterval(redemptionPoll);redemptionPoll=null}};
+ const close=()=>{stopWatching();overlay.remove()};
+ overlay.querySelector(".bh-wallet-redeem-close").onclick=close;overlay.onclick=e=>{if(e.target===overlay)close()};
+ const watchRedemption=(issuedAt)=>{
+  stopWatching();const generation=redemptionGeneration;
+  const check=async()=>{
+   if(!overlay.isConnected||generation!==redemptionGeneration||redemptionChecking)return;
+   redemptionChecking=true;
+   try{
+    const result=await db.from("reward_redemptions").select("id,created_at").eq("customer_id",user.id).eq("campaign_id",campaignId).gte("created_at",issuedAt).order("created_at",{ascending:false}).limit(1);
+    if(result.error)throw result.error;
+    if(generation!==redemptionGeneration||!overlay.isConnected)return;
+    if(result.data?.length){
+     close();celebration={kind:"reward"};await load();
+     if(tab!=="wallet"){tab="wallet";walletView="loyalty";render()}
+     window.scrollTo({top:0,behavior:"smooth"});
+    }
+   }catch(err){console.warn("Redemption status check unavailable:",err.message)}
+   finally{redemptionChecking=false}
+  };
+  redemptionPoll=setInterval(check,2000);
+ };
+
  const create=async()=>{
   const btn=overlay.querySelector("#bhWalletRedeemRefresh"),image=overlay.querySelector("#bhWalletRedeemImage"),code=overlay.querySelector("#bhWalletRedeemCode"),status=overlay.querySelector("#bhWalletRedeemStatus");
-  btn.disabled=true;image.replaceChildren();code.textContent="";status.textContent="Generating secure redemption QR…";
+  stopWatching();btn.disabled=true;image.replaceChildren();code.textContent="";status.textContent="Generating secure redemption QR…";
   try{
    const result=await db.rpc("create_typed_visit_token",{p_campaign:campaignId,p_action:"redeem"});
    if(result.error)throw result.error;
@@ -635,7 +658,7 @@ document.querySelectorAll("[data-community-deal-expand]").forEach(el=>el.onclick
    if(!overlay.isConnected)return;
    code.textContent=data.token;
    status.textContent="Expires: "+new Date(data.expires_at).toLocaleTimeString();
-   if(window.QRCode)new QRCode(image,{text:data.token,width:205,height:205});else image.textContent="QR unavailable. Show the code above.";
+   if(window.QRCode)new QRCode(image,{text:data.token,width:205,height:205});else image.textContent="QR unavailable. Show the code above.";watchRedemption(new Date().toISOString());
   }catch(e){if(overlay.isConnected)status.textContent="Unable to generate redemption QR: "+e.message}
   finally{if(overlay.isConnected)btn.disabled=false}
  };
