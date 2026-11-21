@@ -239,11 +239,11 @@ function founderReadHours(form,prior){
  const longKeys={mon:"monday",tue:"tuesday",wed:"wednesday",thu:"thursday",fri:"friday",sat:"saturday",sun:"sunday"};
  for(const [key] of founderHoursDays){
   const oldEntry=old[key]||old[longKeys[key]]||{};
-  if(form.elements["closed_"+key].checked){result[key]={...oldEntry,closed:true};delete result[key].open;delete result[key].close}
+  if(form.elements["closed_"+key].checked){result[longKeys[key]]={...oldEntry,closed:true};delete result[longKeys[key]].open;delete result[longKeys[key]].close}
   else{
    const open=form.elements["open_"+key].value,close=form.elements["close_"+key].value;
    if(!open||!close||open===close)throw Error("Enter different opening and closing times for "+longKeys[key]+".");
-   result[key]={...oldEntry,open,close};delete result[key].closed;
+   result[longKeys[key]]={...oldEntry,open,close};delete result[longKeys[key]].closed;
   }
  }
  return result;
@@ -311,7 +311,15 @@ async function openFounderBusinessEditor(record){
    if(!files.length)return status.textContent="Choose a file first.";
    if(kind==="menu"&&files.length>1)return status.textContent="Select one menu at a time.";
    try{
-    for(const file of files){const code=await founderBusinessChallenge(record.id);if(code===null)break;const path=await founderBusinessUpload(file,record.id,kind);const result=await db.rpc("bizhunt_founder_business_media",{p_id:record.id,p_code:code,p_kind:kind,p_action:"add",p_path:path,p_file_type:file.type,p_title:kind==="menu"?overlay.querySelector("#founderMenuTitle").value:file.name});if(result.error)throw result.error}
+    const code=await founderBusinessChallenge(record.id);if(code===null){status.textContent="Upload cancelled.";return}
+    if(kind==="gallery"){
+     if(files.length>30)throw Error("Select no more than 30 photos at once.");
+     const items=[];for(const file of files){status.textContent="Uploading "+(items.length+1)+" of "+files.length+" photos…";const path=await founderBusinessUpload(file,record.id,kind);items.push({path,title:file.name,file_type:file.type})}
+     const result=await db.rpc("bizhunt_founder_business_gallery_batch",{p_id:record.id,p_code:code,p_items:items});if(result.error)throw result.error;
+    }else{
+     const file=files[0],path=await founderBusinessUpload(file,record.id,kind);
+     const result=await db.rpc("bizhunt_founder_business_media",{p_id:record.id,p_code:code,p_kind:kind,p_action:"add",p_path:path,p_file_type:file.type,p_title:overlay.querySelector("#founderMenuTitle").value});if(result.error)throw result.error;
+    }
     input.value="";status.textContent="Media updated.";await refreshMedia();
    }catch(error){status.textContent=error.message||"Unable to upload media"}
   };
