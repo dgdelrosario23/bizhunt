@@ -55,7 +55,7 @@ as $$
     (select n from redemption_total)
   from customer_stamps s
   left join redeemed_customers rc on rc.customer_id = s.customer_id
-  where exists (select 1 from authorized);
+  having exists (select 1 from authorized);
 $$;
 
 revoke all on function public.merchant_customer_retention_metrics(uuid) from public, anon;
@@ -63,5 +63,5 @@ grant execute on function public.merchant_customer_retention_metrics(uuid) to au
 commit;
 
 -- This function intentionally returns no customer identifiers.
--- A non-owner receives an empty result (not another merchant's counts).
+-- A non-owner receives NO rows (not a zero-count row); HAVING gates the aggregate output.
 -- Multiple stamps are NOT verified separate visits; reward counts are events.
