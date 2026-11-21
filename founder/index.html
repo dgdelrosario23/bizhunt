@@ -119,7 +119,8 @@ async function loadCuratedEditor(){
  }
  const mediaRows=[];
  for(let offset=0;offset<records.length;offset+=pageSize){
-  const media=await db.from("bizhunt_curated_businesses").select("id,logo_path,cover_path,gallery_paths,opening_hours,weekly_hours,phone,website,instagram,latitude,longitude").range(offset,offset+pageSize-1).order("id");
+  let media=await db.from("bizhunt_curated_businesses").select("id,logo_path,cover_path,gallery_paths,opening_hours,weekly_hours,phone,website,instagram,latitude,longitude").range(offset,offset+pageSize-1).order("id");
+  if(media.error&&/column|schema cache/i.test(media.error.message||""))media=await db.from("bizhunt_curated_businesses").select("id,logo_path,cover_path,gallery_paths,opening_hours,weekly_hours,phone,website,instagram").range(offset,offset+pageSize-1).order("id");
   if(media.error){el.innerHTML='<p class="error">'+esc(media.error.message)+'</p>';return}
   mediaRows.push(...(media.data||[]));
  }
