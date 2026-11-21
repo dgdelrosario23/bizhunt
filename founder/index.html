@@ -125,8 +125,22 @@ async function loadCuratedEditor(){
  }
  const byId=new Map(mediaRows.map(x=>[String(x.id),x]));
  curatedEditorRecords=records.map(x=>({...x,...(byId.get(String(x.id))||{})}));
- el.innerHTML='<label>Choose a community listing<select id="curatedEditorSelect"><option value="">Select a business…</option>'+curatedEditorRecords.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join("")+'</select></label><div id="curatedEditorFormHost"></div>';
- $("curatedEditorSelect").onchange=()=>showCuratedEditor($("curatedEditorSelect").value);
+ el.innerHTML='<div class="curated-editor-actions"><button type="button" id="newCuratedListing">+ Add community listing</button></div><div id="curatedCreateHost"></div><label>Choose a community listing<select id="curatedEditorSelect"><option value="">Select a business…</option>'+curatedEditorRecords.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join("")+'</select></label><div id="curatedEditorFormHost"></div>';
+ $("curatedEditorSelect").onchange=()=>showCuratedEditor($("curatedEditorSelect").value);$("newCuratedListing").onclick=showCuratedCreate;
+}
+function showCuratedCreate(){
+ const host=$("curatedCreateHost");host.innerHTML='<form id="curatedCreateForm" class="curated-editor-grid"><label>Name<input name="name" maxlength="250" required minlength="2"></label><label>Category<input name="category" maxlength="250" required></label><label>Location<input name="location" maxlength="250"></label><label class="wide">Description<textarea name="description" maxlength="1500"></textarea></label><div class="curated-editor-actions"><button type="submit">Create listing</button><button type="button" id="cancelCuratedCreate">Cancel</button></div><p class="muted wide">Create the listing first, then select it to upload photos and set operating hours.</p></form>';
+ $("cancelCuratedCreate").onclick=()=>host.innerHTML="";
+ $("curatedCreateForm").onsubmit=async e=>{e.preventDefault();const form=e.currentTarget,button=form.querySelector('[type="submit"]'),fd=new FormData(form);if(!confirm("Create this community listing? This will make it publicly discoverable."))return;button.disabled=true;const r=await db.rpc("bizhunt_founder_curated_create",{p_name:String(fd.get("name")||"").trim(),p_category:String(fd.get("category")||"").trim(),p_location:String(fd.get("location")||"").trim(),p_description:String(fd.get("description")||"").trim()});if(r.error){notice(r.error.message,true);button.disabled=false;return}notice("Community listing created. Audit log recorded.");await loadCuratedEditor();await loadRecordManagement();const select=$("curatedEditorSelect");if(select){select.value=String(r.data);showCuratedEditor(String(r.data))}};
+}
+async function curatedListingAction(id,action){
+ const x=curatedEditorRecords.find(y=>String(y.id)===String(id));if(!x)return;
+ if(!confirm((action==="delete"?"Permanently delete":action==="archive"?"Archive":"Restore")+" "+x.name+"?"+(action==="delete"?" This cannot be undone.":"")))return;
+ const ch=await db.rpc("bizhunt_founder_curated_challenge",{p_id:id,p_action:action});if(ch.error)return notice(ch.error.message,true);
+ const code=prompt("Admin confirmation code (valid for 5 minutes): "+ch.data);if(code===null)return;
+ const r=action==="delete"?await db.rpc("bizhunt_founder_curated_mutate",{p_id:id,p_action:"delete",p_code:code.trim(),p_changes:{}}):await db.rpc("bizhunt_founder_curated_archive",{p_id:id,p_archive:action==="archive",p_code:code.trim()});
+ if(r.error)return notice(r.error.message,true);
+ notice("Listing "+(action==="delete"?"deleted":action==="archive"?"archived":"restored")+". Audit log recorded.");await loadCuratedEditor();await loadRecordManagement();
 }
 function showCuratedEditor(id){
  const host=$("curatedEditorFormHost");const x=curatedEditorRecords.find(y=>String(y.id)===String(id));
@@ -139,10 +153,10 @@ function showCuratedEditor(id){
  '<label>Logo / profile photo<input name="logoFile" type="file" accept="image/jpeg,image/png,image/webp"></label><label>Cover photo<input name="coverFile" type="file" accept="image/jpeg,image/png,image/webp"></label><label class="wide">Add gallery photos (up to 8)<input name="galleryFiles" type="file" accept="image/jpeg,image/png,image/webp" multiple></label></div>'+
  '<div id="curatedPhotoPreview" class="curated-editor-photos"></div><button type="button" id="clearCuratedGallery" class="btn">Clear gallery</button><h3>Weekly operating hours</h3>'+
  curatedDays.map(day=>{let h=hours[day]||{};return '<div class="curated-editor-day"><strong>'+day.slice(0,3).toUpperCase()+'</strong><label><input type="checkbox" data-day-closed="'+day+'" '+(h.closed||!h.open?'checked':'')+'> Closed</label><input type="time" data-day-open="'+day+'" value="'+esc(h.open||"09:00")+'"><input type="time" data-day-close="'+day+'" value="'+esc(h.close||"17:00")+'"></div>'}).join("")+
- '<div class="curated-editor-actions"><button type="submit" id="saveCuratedBusiness">Save business updates</button><span class="muted" id="curatedSaveStatus" role="status"></span></div></form>';
+ '<div class="curated-editor-actions"><button type="submit" id="saveCuratedBusiness">Save business updates</button><button type="button" id="archiveCuratedListing">'+(x.archived_at?'Restore listing':'Archive listing')+'</button><button type="button" id="deleteCuratedListing">Delete permanently</button><span class="muted" id="curatedSaveStatus" role="status"></span></div></form>';
  function renderPhotos(){const p=[x.logo_path,x.cover_path,...curatedEditorGallery].filter(Boolean);$("curatedPhotoPreview").innerHTML=p.map(path=>'<img src="'+esc(curatedPublicUrl(path))+'" alt="Current listing photo">').join("")}
  renderPhotos();$("clearCuratedGallery").onclick=()=>{curatedEditorGallery=[];renderPhotos()};
- $("curatedBusinessForm").onsubmit=saveCuratedBusiness;
+ $("curatedBusinessForm").onsubmit=saveCuratedBusiness;$("archiveCuratedListing").onclick=()=>curatedListingAction(x.id,x.archived_at?"restore":"archive");$("deleteCuratedListing").onclick=()=>curatedListingAction(x.id,"delete");
 }
 async function curatedUpload(file,id,kind){
  if(!file)return null;
