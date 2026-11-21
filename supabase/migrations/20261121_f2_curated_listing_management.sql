@@ -25,6 +25,7 @@ returns void language plpgsql security definer set search_path=public,pg_temp as
 declare ch record; old_row jsonb; new_row jsonb; v_action text := case when p_archive then 'archive' else 'restore' end;
 begin
  if not public.bizhunt_founder_authorized() then raise exception 'Founder admin access required' using errcode='42501'; end if;
+ if p_archive is null then raise exception 'Archive choice is required' using errcode='22023'; end if;
  select * into ch from public.bizhunt_founder_challenges where actor_id=auth.uid() for update;
  if not found or ch.entity_type<>'curated' or ch.entity_id<>p_id or ch.action<>v_action or ch.expires_at<now() or ch.code_hash<>md5(coalesce(p_code,'')) then raise exception 'Invalid or expired confirmation code'; end if;
  delete from public.bizhunt_founder_challenges where actor_id=auth.uid();
