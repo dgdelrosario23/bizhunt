@@ -206,7 +206,7 @@ async function loadCampaignHistoryMetrics(version,business){
   if(!result.data.every(row=>row.campaign_id&&fields.every(k=>Number.isSafeInteger(Number(row[k]))&&Number(row[k])>=0)))return;
   const expected=new Set(campaigns.map(c=>c.id));if(result.data.length!==expected.size||result.data.some(row=>!expected.has(row.campaign_id))||new Set(result.data.map(row=>row.campaign_id)).size!==expected.size)return;
   campaignHistoryMetrics=new Map(result.data.map(row=>[row.campaign_id,row]));
-  if(tab==="overview"){const card=document.querySelector(".bh-campaign-comparison");if(card){card.outerHTML=merchantCampaignComparison();bindCampaignInsightsRange()}}else if(tab==="campaigns")render();
+  if(tab==="overview"){const card=document.querySelector(".bh-campaign-comparison");if(card){card.outerHTML=merchantCampaignComparison();bindCampaignInsightsRange()}}else if(tab==="campaigns"){document.querySelectorAll(".bh-campaign-v2").forEach(card=>{const id=card.querySelector("[data-edit-campaign]")?.dataset.editCampaign;const data=campaignHistoryMetrics.get(id);if(!data)return;const items=card.querySelectorAll(".bh-campaign-activity strong");if(items.length>=4){items[0].textContent=Number(data.total_stamp_events);items[1].textContent=Number(data.total_reward_redemptions);items[2].textContent=Number(data.customers_with_stamps);items[3].textContent=Number(data.customers_with_multiple_stamps)}const pill=card.querySelector(".bh-campaign-data-note .pill");if(pill)pill.textContent="All history"})}
  }catch(e){/* Keep loaded-record campaign comparison when RPC is unavailable. */}
 }
 function bindCampaignInsightsRange(){
