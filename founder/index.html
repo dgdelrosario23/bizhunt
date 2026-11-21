@@ -208,7 +208,7 @@ async function saveCuratedBusiness(ev){
   const result=await db.rpc("bizhunt_founder_curated_media_save",{p_id:id,p_logo_path:logoPath,p_cover_path:coverPath,p_gallery_paths:[...curatedEditorGallery,...added],p_opening_hours:String(fd.get("opening_hours")||"").trim(),p_weekly_hours:weekly,p_phone:String(fd.get("phone")||"").trim(),p_website:website,p_instagram:String(fd.get("instagram")||"").trim()});
   if(result.error)throw result.error;
   status.textContent="Saved successfully.";notice("Community listing updated. Reload Discover to see changes.");
-  await loadCuratedEditor();$("curatedEditorSelect").value=id;showCuratedEditor(id);
+  await loadCuratedEditor();const savedIndex=curatedEditorRecords.findIndex(row=>String(row.id)===id);if(savedIndex>=0){curatedPage=Math.floor(savedIndex/curatedPageSize);showCuratedEditor(id);renderCuratedListings()}
  }catch(e){status.textContent=e.message||"Unable to save";notice(e.message||"Unable to save",true)}finally{btn.disabled=false}
 }
 async function init(){if(!window.supabase){notice("Unable to load Supabase. Refresh the page.",true);return}db=window.supabase.createClient(SUPABASE_URL,KEY);const {data,error}=await db.auth.getUser();if(error||!data.user){$("content").innerHTML='<div class="panel"><h2>Sign in required</h2><p>Use your BizHunt personal account to access founder analytics.</p><a class="btn" href="../account/">Sign in →</a></div>';return}await load();if($("loadCuratedEditor"))$("loadCuratedEditor").onclick=loadCuratedEditor}init().catch(e=>notice(e.message,true));
