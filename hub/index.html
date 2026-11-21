@@ -204,6 +204,7 @@ async function loadCampaignHistoryMetrics(version,business){
   if(result.error||!Array.isArray(result.data))return;
   const fields=["customers_with_stamps","customers_with_multiple_stamps","total_stamp_events","total_reward_redemptions"];
   if(!result.data.every(row=>row.campaign_id&&fields.every(k=>Number.isSafeInteger(Number(row[k]))&&Number(row[k])>=0)))return;
+  const expected=new Set(campaigns.map(c=>c.id));if(result.data.length!==expected.size||result.data.some(row=>!expected.has(row.campaign_id))||new Set(result.data.map(row=>row.campaign_id)).size!==expected.size)return;
   campaignHistoryMetrics=new Map(result.data.map(row=>[row.campaign_id,row]));
   if(tab==="overview"){const card=document.querySelector(".bh-campaign-comparison");if(card){card.outerHTML=merchantCampaignComparison();bindCampaignInsightsRange()}}
  }catch(e){/* Keep loaded-record campaign comparison when RPC is unavailable. */}
@@ -219,6 +220,7 @@ function bindCampaignInsightsRange(){
 }
 function merchantCampaignComparison(){
  const historical=campaignInsightsDays===0&&campaignHistoryMetrics instanceof Map;
+ const periodLabel=campaignInsightsDays===0?(historical?'All history':'Loaded records'):'Last '+campaignInsightsDays+' days · loaded records';
  const cutoff=campaignInsightsDays===0?null:new Date(Date.now()-campaignInsightsDays*86400000);
  const within=x=>!cutoff||new Date(x.created_at)>=cutoff;
  const filteredStamps=stamps.filter(within),filteredRewards=redemptions.filter(within);
@@ -229,7 +231,7 @@ function merchantCampaignComparison(){
   return {c,stamps:lifetime?Number(lifetime.total_stamp_events):issued.length,rewards:lifetime?Number(lifetime.total_reward_redemptions):redeemed.length,customers:lifetime?Number(lifetime.customers_with_stamps):people.size,multiple:lifetime?Number(lifetime.customers_with_multiple_stamps):[...people.values()].filter(n=>n>=2).length};
  }).sort((a,b)=>b.stamps-a.stamps||b.customers-a.customers||b.rewards-a.rewards);
  const picker='<select id="campaignInsightsDays" aria-label="Campaign activity date range">'+[[7,'7 days'],[30,'30 days'],[90,'90 days'],[0,campaignHistoryMetrics instanceof Map?'All history':'Loaded records']].map(([n,label])=>'<option value="'+n+'" '+(campaignInsightsDays===n?'selected':'')+'>'+label+'</option>').join("")+'</select>';
- return '<section class="card bh-campaign-comparison"><div class="bh-overview-section-head"><h3>Campaign activity comparison</h3><small class="hint">'+(historical?'All history':'Recent records')+'</small><div class="bh-overview-header-controls">'+picker+overviewInfo("Compare stamps, reward redemptions, distinct customers with stamps, and customers with multiple stamps per campaign. Dates use the last selected number of days, not calendar months. All history uses an owner-authorized server aggregate when available; otherwise metrics fall back to up to 1,000 loaded records of each type. The 7/30/90-day filters always use loaded records. Multiple stamps are not verified repeat visits; counts are not conversion or retention rates.")+'</div></div>'
+ return '<section class="card bh-campaign-comparison"><div class="bh-overview-section-head"><h3>Campaign activity comparison</h3><small class="hint">'+periodLabel+'</small><div class="bh-overview-header-controls">'+picker+overviewInfo("Compare stamps, reward redemptions, distinct customers with stamps, and customers with multiple stamps per campaign. Dates use the last selected number of days, not calendar months. All history uses an owner-authorized server aggregate when available. Loaded records and 7/30/90-day filters use up to 1,000 recently fetched records per transaction type and can undercount older activity. Multiple stamps are not verified repeat visits; counts are not conversion or retention rates.")+'</div></div>'
  +(sorted.length?'<div class="bh-compare-list">'+sorted.map(x=>'<div class="bh-compare-item"><div class="bh-compare-name"><strong>'+esc(x.c.name)+'</strong><small>'+(x.c.active?'Active':'Paused')+'</small></div><div class="bh-compare-counts"><span>★ '+x.stamps+' stamps</span><span>🎁 '+x.rewards+' redeemed</span><span>👤 '+x.customers+' customers</span><span>↻ '+x.multiple+' multiple stamps</span></div></div>').join("")+'</div>':'<p class="hint">Create a campaign to start tracking activity.</p>')
  +'<div class="bh-overview-card-actions"><button type="button" class="bh-insight-link" data-merchant-jump="campaigns">Manage →</button></div></section>';
 }
