@@ -40,7 +40,40 @@
 #recordManagement .record-open-hint{font-size:11px}
 #recordManagement .manage-toolbar button{padding:10px 12px}
 }
-</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></head><body><div class="shell"><header class="hero"><div class="top"><div class="brand">Biz<b>Hunt</b> ✦</div><a href="../app/">Customer app ↗</a></div><h1>Founder Dashboard 📈</h1><p>Startup growth, loyalty activity, and merchant traction.</p></header><div id="notice" role="status"></div><div id="content"><div class="panel">Checking founder access…</div></div><div id="moderation"></div><section id="missingPlaceModeration"></section><section id="curatedEditor" class="panel"><h2>📸 Community listing editor</h2><p class="muted">Manage curated listings, photos, contact information and operating hours. Founder access required.</p><div id="curatedEditorBody"><button id="loadCuratedEditor" type="button">Load community listings</button></div></section><section id="recordManagement"></section></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script>
+
+/* F6 responsive founder workspace */
+[hidden]{display:none!important}
+body{background:#f5f7fc}
+.founder-workspace{max-width:none;margin-left:236px;padding:20px 28px 90px}
+.founder-workspace .hero{padding:20px 24px;margin-bottom:16px;border-radius:20px}
+.founder-workspace .hero h1{margin:8px 0 4px;font-size:23px}
+.founder-sidebar{position:fixed;inset:0 auto 0 0;width:236px;background:#fff;border-right:1px solid #e3e9f5;padding:22px 12px;display:flex;flex-direction:column;z-index:1000}
+.founder-sidebar-brand{font-size:24px;font-weight:900;color:#273880;padding:7px 14px 25px}
+.founder-sidebar-brand b{color:#d5a22d}
+.founder-sidebar-brand small{display:block;margin-top:5px;font-size:11px;font-weight:600;color:#72809c}
+.founder-sidebar-links{display:grid;gap:5px}
+.founder-sidebar button{display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;color:#52617e;text-align:left;border-radius:11px;padding:12px 13px;font-size:14px;font-weight:700}
+.founder-sidebar button.active{background:#eaf0ff;color:#273880}
+.founder-sidebar button:hover{background:#f1f4fc}
+.founder-nav-glyph{width:20px;text-align:center;font-size:20px}
+.founder-sidebar-exit{margin-top:auto;padding:12px 14px;color:#425b9b;text-decoration:none;font-size:13px}
+.founder-mobile-nav{display:none}
+#recordManagement,#curatedEditor,#moderation,#claimQueue,#missingPlaceModeration{max-width:1280px;margin-left:auto;margin-right:auto}
+#content{max-width:1280px;margin:auto}
+@media(max-width:800px){
+ .founder-sidebar{display:none}
+ .founder-workspace{margin:0;padding:12px 12px 100px}
+ .founder-workspace .hero{padding:15px 17px;border-radius:15px}
+ .founder-workspace .hero h1{font-size:20px}
+ .founder-mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:1200;background:#fff;border-top:1px solid #dce5f5;box-shadow:0 -6px 25px #253b6515;padding:7px 5px max(8px,env(safe-area-inset-bottom));justify-content:space-around}
+ .founder-mobile-nav>button{display:grid;justify-items:center;gap:2px;flex:1;min-width:0;background:transparent;border:0;color:#70809a;border-radius:10px;padding:7px 3px;font-weight:700}
+ .founder-mobile-nav>button.active{color:#273880;background:#eef3ff}
+ .founder-mobile-nav>button span{font-size:21px;line-height:23px}
+ .founder-mobile-nav>button small{font-size:10px}
+ #founderMoreMenu{position:absolute;bottom:calc(100% + 8px);right:9px;min-width:175px;background:#fff;border:1px solid #dce5f5;border-radius:13px;box-shadow:0 12px 35px #20345b28;padding:7px}
+ #founderMoreMenu button,#founderMoreMenu a{display:block;width:100%;text-align:left;background:transparent;border:0;color:#273880;padding:12px;border-radius:8px;font-size:13px;font-weight:650;text-decoration:none}
+}
+</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></head><body><nav id="founderSidebar" class="founder-sidebar" aria-label="Founder sections"></nav><div class="shell founder-workspace"><header class="hero"><div class="top"><div class="brand">Biz<b>Hunt</b> ✦</div><a href="../app/">Customer app ↗</a></div><h1>Founder Dashboard 📈</h1><p>Startup growth, loyalty activity, and merchant traction.</p></header><div id="notice" role="status"></div><div id="content"><div class="panel">Checking founder access…</div></div><div id="moderation"></div><section id="missingPlaceModeration"></section><section id="curatedEditor" class="panel"><h2>📸 Community listing editor</h2><p class="muted">Manage curated listings, photos, contact information and operating hours. Founder access required.</p><div id="curatedEditorBody"><button id="loadCuratedEditor" type="button">Load community listings</button></div></section><section id="recordManagement"></section></div><nav id="founderMobileNav" class="founder-mobile-nav" aria-label="Founder mobile sections"></nav><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script>
 const SUPABASE_URL="https://cjvcqdlwadmuktxtdxcz.supabase.co",KEY="sb_publishable_V1lSJqiAyQtSgo0T3gY1Cg_tU4xYCsx";const $=id=>document.getElementById(id),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));const fmt=n=>Number(n||0).toLocaleString();let db;let overviewDays=30;
 function notice(s,bad){$("notice").innerHTML='<div class="'+(bad?"error":"success")+'">'+esc(s)+'</div>'}
 function draw(d){const stats=[["👤","Registered users",d.users],["🏪","Total businesses",d.businesses],["⭐","Stamps issued",d.stamps],["🎁","Rewards redeemed",d.redemptions],["📍","Cities / areas covered*",d.cities],["🎯","Active campaigns",d.active_campaigns]];const months=d.monthly||[],max=Math.max(1,...months.map(m=>Number(m.stamps)||0));$("content").innerHTML='<div class="row"><h2>Platform overview</h2><div class="overview-controls"><label for="overviewPeriod" class="muted">Reporting period</label><select id="overviewPeriod" aria-label="Reporting period"><option value="7">Last 7 days</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option></select></div></div><section id="f1Overview" class="panel f1-panel" aria-live="polite"><p class="muted">Loading period analytics…</p></section><div class="grid">'+stats.map(x=>'<div class="stat"><div class="icon">'+x[0]+'</div><div class="label">'+esc(x[1])+'</div><strong>'+fmt(x[2])+'</strong></div>').join("")+'</div><div class="panel"><h2>Customer engagement</h2><div class="substats"><div class="substat"><strong>'+fmt(d.unique_customers)+'</strong><span>Customers who have earned a stamp</span></div><div class="substat"><strong>'+fmt(d.repeat_customers)+'</strong><span>Customers with at least 2 stamps</span></div></div><p class="muted">Repeat customers are defined here as accounts with two or more stamps across the platform, not necessarily separate visits or days.</p></div><div class="panel"><h2>Monthly stamps issued</h2><p class="muted">Last six calendar months · based on verified stamp transactions</p><div class="chart">'+months.map(m=>'<div class="barcol"><div class="barvalue">'+fmt(m.stamps)+'</div><div class="bar" style="height:'+Math.max(3,Math.round(Number(m.stamps||0)/max*140))+'px"></div><div class="barlabel">'+esc(m.month.slice(5))+'/'+esc(m.month.slice(2,4))+'</div></div>').join("")+'</div><h2 style="margin-top:28px">Monthly growth</h2><div style="overflow-x:auto"><table><thead><tr><th>Month</th><th class="num">New users</th><th class="num">New businesses</th><th class="num">Stamps</th><th class="num">Redemptions</th></tr></thead><tbody>'+months.map(m=>'<tr><td>'+esc(m.month)+'</td><td class="num">'+fmt(m.users)+'</td><td class="num">'+fmt(m.businesses)+'</td><td class="num">'+fmt(m.stamps)+'</td><td class="num">'+fmt(m.redemptions)+'</td></tr>').join("")+'</tbody></table></div></div><div class="panel"><h2>Top businesses by stamps</h2><div style="overflow-x:auto"><table><thead><tr><th>Business</th><th class="num">Stamps</th><th class="num">Redemptions</th></tr></thead><tbody>'+(d.top_businesses||[]).map(b=>'<tr><td><strong>'+esc(b.name)+'</strong><div class="muted">'+esc(b.location)+'</div></td><td class="num">'+fmt(b.stamps)+'</td><td class="num">'+fmt(b.redemptions)+'</td></tr>').join("")+'</tbody></table>'+(d.top_businesses?.length?"":'<div class="empty">No businesses registered yet.</div>')+'</div></div><p class="muted">*Cities/areas are approximated from the first comma-separated part of merchant-entered locations. These are not verified municipalities. Founder metrics come from server-side aggregates and require founder authorization.</p>';$("overviewPeriod").value=String(overviewDays);$("overviewPeriod").onchange=e=>{overviewDays=Number(e.target.value);loadOverviewV2()};loadOverviewV2()}
@@ -62,7 +95,7 @@ async function loadOverviewV2(){
  '<div class="f1-queue"><span>Open content reports</span><strong>'+fmt(d.open_reports)+'</strong></div>'+
  '<p class="muted f1-note">Period comparisons use equal-length preceding windows. Business ownership and pending-action counts are current totals. Curated sample listings are excluded from registered-business totals.</p>';
 }
-async function load(){if(!db)return;const r=await db.rpc("founder_dashboard");if(r.error){$("content").innerHTML='<div class="panel"><h2>Dashboard unavailable</h2><p class="muted">This page is restricted to approved founder accounts. Run the founder analytics migration and authorize your account before using it.</p></div>';notice(r.error.message,true);await loadModeration();return}$("notice").innerHTML="";draw(r.data);founderQuickLinks();await Promise.allSettled([loadModeration(),loadClaims(),loadRecordManagement(),loadMissingPlaceModeration()])}
+async function load(){if(!db)return;const r=await db.rpc("founder_dashboard");if(r.error){$("content").innerHTML='<div class="panel"><h2>Dashboard unavailable</h2><p class="muted">This page is restricted to approved founder accounts. Run the founder analytics migration and authorize your account before using it.</p></div>';notice(r.error.message,true);return}$("notice").innerHTML="";draw(r.data);founderQuickLinks();await openFounderSection(founderSectionFromUrl(),{skipHistory:true})}
 async function loadMissingPlaceModeration(){
  const el=$("missingPlaceModeration"),r=await db.rpc("bizhunt_founder_missing_queue");
  if(r.error){el.innerHTML='<div class="panel"><h2>📍 Missing place submissions</h2><p class="muted">Requires Phase 42 migration.</p><p class="error">'+esc(r.error.message)+'</p></div>';return}
@@ -84,7 +117,53 @@ async function loadMissingPlaceModeration(){
  })
 }
 async function loadModeration(){let el=$("moderation"),r=await db.rpc("bizhunt_moderation_queue");if(r.error){el.innerHTML='<div class="panel"><h2>🛡️ Moderation access</h2><p class="muted">Administrator authorization required. Run Phase 16 SQL and register the founder user ID in bizhunt_admins.</p></div>';return}let d=r.data||{},req=d.requests||[],reports=d.reports||[];el.innerHTML='<div class="panel"><div class="row"><h2>🛡️ Verification requests ('+req.length+')</h2></div><p class="muted">Independently confirm business ownership before approving. The request note is not proof by itself.</p>'+(req.map(x=>'<div class="moderation-item"><strong>'+esc(x.business_name)+'</strong><p class="muted">Request '+esc(x.id)+' · '+esc(x.created_at)+'</p><p class="moderation-note">'+esc(x.evidence_note)+'</p><div class="moderation-actions"><button data-kind="verification" data-id="'+esc(x.id)+'" data-action="approved">Approve</button><button data-kind="verification" data-id="'+esc(x.id)+'" data-action="rejected">Reject</button></div></div>').join("")||'<p class="muted">No pending requests.</p>')+'</div><div class="panel"><h2>⚑ Reports ('+reports.length+')</h2>'+(reports.map(x=>'<div class="moderation-item"><strong>'+esc(x.business_name)+'</strong><p>'+esc(x.reason)+'</p><p class="moderation-note">'+esc(x.details)+'</p><p class="muted">Status: '+esc(x.status)+(x.review_id?' · Review '+esc(x.review_id):'')+'</p><div class="moderation-actions"><button data-kind="report" data-id="'+esc(x.id)+'" data-action="reviewing">Investigate</button><button data-kind="report" data-id="'+esc(x.id)+'" data-action="resolved">Resolve</button><button data-kind="report" data-id="'+esc(x.id)+'" data-action="dismissed">Dismiss</button></div></div>').join("")||'<p class="muted">No open reports.</p>')+'</div>';el.querySelectorAll("[data-kind]").forEach(b=>b.onclick=async()=>{if(!confirm("Confirm "+b.dataset.action+"? This action will be recorded."))return;b.disabled=true;let res=await db.rpc("bizhunt_moderate",{p_kind:b.dataset.kind,p_id:b.dataset.id,p_action:b.dataset.action});if(res.error){notice(res.error.message,true);b.disabled=false}else{notice("Moderation action saved.");await loadModeration();await loadClaims()}})}
-function founderQuickLinks(){let el=document.getElementById("founderQuickLinks");if(!el){el=document.createElement("nav");el.id="founderQuickLinks";el.setAttribute("aria-label","Founder quick links");document.getElementById("content").before(el)}el.innerHTML='<div class="founder-shortcuts"><span class="muted">Quick access</span><a href="../hub/" target="_blank" rel="noopener noreferrer">Merchant Hub ↗</a><a href="#moderation">Moderation ↓</a><a href="#recordManagement">Records ↓</a><a href="#curatedEditor">Listing editor ↓</a></div>'}
+const founderSections=[
+ ["overview","Overview","▦"],["users","Users","♙"],["businesses","Businesses","▣"],["listings","Listings","▤"],["moderation","Moderation","◇"],["logs","Audit logs","≡"]
+];
+let founderActiveSection="overview";
+const founderLoadedSections=new Set();
+let founderNavigationToken=0;
+function founderSectionFromUrl(){const name=new URLSearchParams(location.search).get("section");return founderSections.some(x=>x[0]===name)?name:"overview"}
+function founderQuickLinks(){renderFounderNavigation()}
+function renderFounderNavigation(){
+ const links=founderSections.map(([key,label,glyph])=>'<button type="button" data-founder-section="'+key+'" class="'+(founderActiveSection===key?'active':'')+'" aria-current="'+(founderActiveSection===key?'page':'false')+'"><span class="founder-nav-glyph" aria-hidden="true">'+glyph+'</span><span>'+label+'</span></button>').join("");
+ const sidebar=$("founderSidebar");if(sidebar)sidebar.innerHTML='<div class="founder-sidebar-brand">Biz<b>Hunt</b> ✦<small>Founder workspace</small></div><div class="founder-sidebar-links">'+links+'</div><a class="founder-sidebar-exit" href="../app/">Customer app ↗</a>';
+ const mobile=$("founderMobileNav");if(mobile)mobile.innerHTML=founderSections.slice(0,4).map(([key,label,glyph])=>'<button type="button" data-founder-section="'+key+'" class="'+(founderActiveSection===key?'active':'')+'"><span aria-hidden="true">'+glyph+'</span><small>'+label+'</small></button>').join("")+'<button type="button" id="founderMoreButton" class="'+(["moderation","logs"].includes(founderActiveSection)?"active":"")+'" aria-expanded="false"><span aria-hidden="true">☰</span><small>More</small></button><div id="founderMoreMenu" hidden><button type="button" data-founder-section="moderation">Moderation</button><button type="button" data-founder-section="logs">Audit logs</button><a href="../app/">Customer app ↗</a></div>';
+ document.querySelectorAll("[data-founder-section]").forEach(button=>button.onclick=()=>openFounderSection(button.dataset.founderSection));
+ const more=$("founderMoreButton");if(more)more.onclick=()=>{const menu=$("founderMoreMenu");menu.hidden=!menu.hidden;more.setAttribute("aria-expanded",String(!menu.hidden))};
+}
+async function openFounderSection(section,options={}){
+ if(!founderSections.some(x=>x[0]===section))section="overview";
+ founderActiveSection=section;
+ const token=++founderNavigationToken;
+ if(!options.skipHistory){const url=new URL(location.href);url.searchParams.set("section",section);history.pushState({founderSection:section},"",url)}
+ const visible={content:section==="overview",moderation:section==="moderation",claimQueue:section==="moderation",missingPlaceModeration:section==="moderation",curatedEditor:section==="listings",recordManagement:["users","businesses","listings","logs"].includes(section)};
+ for(const [id,show] of Object.entries(visible)){const el=$(id);if(el)el.hidden=!show}
+ renderFounderNavigation();
+ if(section==="overview")return;
+ if(section==="moderation"){
+  if(!founderLoadedSections.has(section)){
+   founderLoadedSections.add(section);
+   await Promise.allSettled([loadModeration(),loadClaims(),loadMissingPlaceModeration()]);
+   if(token!==founderNavigationToken)return;
+  }
+  return;
+ }
+ if(section==="listings"){
+  managementType="curated";
+  if(!founderLoadedSections.has("listings")){
+   founderLoadedSections.add("listings");
+   await loadRecordManagement();
+  }
+  return;
+ }
+ if(section==="logs"){await loadFounderLogs();return}
+ const type=section==="users"?"users":"businesses";
+ if(managementType!==type){managementType=type;managementOffset=0;managementSearch=""}
+ if(!founderLoadedSections.has(section)){founderLoadedSections.add(section);await loadRecordManagement()}
+ else if(!($("recordManagement")?.querySelector("[data-management]")))await loadRecordManagement();
+}
+window.addEventListener("popstate",()=>openFounderSection(founderSectionFromUrl(),{skipHistory:true}));
 async function loadClaims(){let el=document.getElementById("claimQueue");if(!el){el=document.createElement("section");el.id="claimQueue";document.getElementById("moderation").after(el)}let r=await db.rpc("founder_community_claims");if(r.error){el.innerHTML='<div class="panel"><h2>🏪 Community claims</h2><p class="muted">Claim review unavailable. Apply Phase 25 SQL and check founder permissions.</p></div>';return}let rows=r.data||[];el.innerHTML='<div class="panel"><h2>🏪 Community business claims ('+rows.filter(x=>x.status==="pending").length+' pending)</h2><p class="muted">Confirm ownership independently before approval. Approval does not transfer access automatically.</p>'+rows.map(x=>'<div class="moderation-item"><strong>'+esc(x.business_name)+'</strong><p>'+esc(x.contact_name)+' · '+esc(x.role_at_business)+'</p><p class="muted">'+esc(x.contact_email)+' · '+esc(x.status)+'</p><p>'+esc(x.message||"")+'</p>'+(x.evidence_url&&/^https:\/\//.test(x.evidence_url)?'<a target="_blank" rel="noopener noreferrer" href="'+esc(x.evidence_url)+'">Evidence link</a>':'')+(x.status==="pending"?'<div class="moderation-actions"><button data-claim="'+esc(x.id)+'" data-decision="approved">Approve</button><button data-claim="'+esc(x.id)+'" data-decision="rejected">Reject</button></div>':'')+'</div>').join("")+'</div>';el.querySelectorAll("[data-claim]").forEach(b=>b.onclick=async()=>{if(!confirm("Confirm "+b.dataset.decision+"? This only records the review decision."))return;b.disabled=true;let r=await db.rpc("founder_review_community_claim",{p_claim_id:b.dataset.claim,p_action:b.dataset.decision});if(r.error){notice(r.error.message,true);b.disabled=false}else{notice("Claim decision recorded.");await loadClaims()}})}
 
 let managementType="users",managementSearch="",managementOffset=0,managementView="tiles",managementPageSize=10;
@@ -98,11 +177,11 @@ async function loadRecordManagement(){
  $("manageView").value=managementView;$("managePageSize").value=String(managementPageSize);
  $("manageView").onchange=e=>{managementView=e.target.value;loadRecordManagement()};
  $("managePageSize").onchange=e=>{managementPageSize=Number(e.target.value);managementOffset=0;loadRecordManagement()};
- el.querySelectorAll("[data-management]").forEach(b=>b.onclick=()=>{if(b.dataset.management==="logs")return loadFounderLogs();managementType=b.dataset.management;managementOffset=0;managementSearch="";loadRecordManagement()});
+ el.querySelectorAll("[data-management]").forEach(b=>b.onclick=()=>{if(b.dataset.management==="logs")return openFounderSection("logs");managementType=b.dataset.management;managementOffset=0;managementSearch="";if(managementType==="users"||managementType==="businesses"||managementType==="curated"){const target=managementType==="curated"?"listings":managementType;founderActiveSection=target;const url=new URL(location.href);url.searchParams.set("section",target);history.pushState({founderSection:target},"",url);renderFounderNavigation();$("curatedEditor").hidden=target!=="listings"}loadRecordManagement()});
  $("manageSearch").onsubmit=e=>{e.preventDefault();managementSearch=new FormData(e.target).get("search").trim();managementOffset=0;loadRecordManagement()};
  $("managePrev").onclick=()=>{managementOffset=Math.max(0,managementOffset-managementPageSize);loadRecordManagement()};
  $("manageNext").onclick=()=>{managementOffset+=managementPageSize;loadRecordManagement()};
- el.querySelectorAll("[data-curated-full-edit]").forEach(button=>button.onclick=async()=>{await loadCuratedEditor();showCuratedEditor(button.dataset.curatedFullEdit);$("curatedEditorFormHost")?.scrollIntoView({behavior:"smooth",block:"start"})});
+ el.querySelectorAll("[data-curated-full-edit]").forEach(button=>button.onclick=async()=>{if(founderActiveSection!=="listings")await openFounderSection("listings");await loadCuratedEditor();showCuratedEditor(button.dataset.curatedFullEdit);$("curatedEditorFormHost")?.scrollIntoView({behavior:"smooth",block:"start"})});
  el.querySelectorAll("[data-copy-record-id]").forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(b.dataset.copyRecordId);notice("Record ID copied.")}catch(e){notice("Could not copy automatically. Select the ID to copy it.",true)}});
  el.querySelectorAll("[data-record-edit]").forEach(b=>b.onclick=()=>{const form=el.querySelector('[data-record-form="'+b.dataset.recordEdit+'"]');form.hidden=!form.hidden});
  el.querySelectorAll("[data-record-cancel]").forEach(b=>b.onclick=()=>{el.querySelector('[data-record-form="'+b.dataset.recordCancel+'"]').hidden=true});
@@ -164,7 +243,7 @@ async function loadFounderLogs(){
  const el=$("recordManagement"),r=await db.rpc("bizhunt_founder_logs",{p_limit:50});
  if(r.error){notice(r.error.message,true);return}
  el.innerHTML='<div class="panel"><div class="row"><h2>📋 Founder audit logs</h2><button id="backRecords">← Records</button></div><p class="muted">Most recent 50 successful administrative edits and deletions, including before and after snapshots.</p>'+((r.data||[]).map(x=>'<div class="audit-entry"><strong>'+esc(x.action.toUpperCase())+' · '+esc(x.entity_type)+'</strong><p class="muted">'+esc(x.created_at)+' · Admin '+esc(x.actor_id)+' · Record '+esc(x.entity_id)+'</p><details><summary>View changes</summary><pre>Before: '+esc(JSON.stringify(x.before_data,null,2))+'\nAfter: '+esc(JSON.stringify(x.after_data,null,2))+'</pre></details></div>').join("")||'<p class="muted">No changes recorded yet.</p>')+'</div>';
- $("backRecords").onclick=loadRecordManagement;
+ $("backRecords").onclick=()=>openFounderSection("users");
 }
 
 const curatedDays=["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
