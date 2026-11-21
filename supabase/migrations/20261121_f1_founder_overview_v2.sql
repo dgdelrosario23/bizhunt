@@ -11,7 +11,7 @@ begin
   ) then
     raise exception 'Founder access only' using errcode = '42501';
   end if;
-  if p_days not in (7,30,90) then
+  if p_days is null or p_days not in (7,30,90) then
     raise exception 'Invalid reporting period' using errcode = '22023';
   end if;
   v_from := v_now - make_interval(days => p_days);
