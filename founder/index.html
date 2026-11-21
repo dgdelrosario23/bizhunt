@@ -259,7 +259,8 @@ async function founderBusinessUpload(file,id,kind){
  const ext=({"image/jpeg":"jpg","image/png":"png","image/webp":"webp","application/pdf":"pdf"})[file.type];
  if(!ext||file.size>5*1024*1024)throw Error("Use JPG, PNG, WebP or PDF files under 5 MB.");
  if(kind!=="menu"&&file.type==="application/pdf")throw Error("Photos must be JPG, PNG or WebP.");
- const path="founder/"+id+"/"+kind+"/"+crypto.randomUUID()+"."+ext;
+ const ownerId=founderBusinessEditorRecord?.owner_id;if(!ownerId)throw Error("This business has no owner ID. Media upload requires a registered owner; no upload was attempted.");
+ const path=ownerId+"/"+id+"/"+kind+"/"+crypto.randomUUID()+"."+ext;
  const bucket=kind==="menu"?"bizhunt-business-menus":"bizhunt-business-media";
  const up=await db.storage.from(bucket).upload(path,file,{contentType:file.type});
  if(up.error)throw up.error;
