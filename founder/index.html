@@ -109,12 +109,22 @@ let curatedEditorRecords=[],curatedEditorActive=null,curatedEditorGallery=[];
 const curatedPublicUrl=p=>p?db.storage.from("bizhunt-business-media").getPublicUrl(p).data.publicUrl:"";
 async function loadCuratedEditor(){
  const el=$("curatedEditorBody");el.innerHTML='<p class="muted">Loading listings…</p>';
- const r=await db.rpc("bizhunt_founder_curated_records",{p_search:"",p_limit:500,p_offset:0});
- if(r.error){el.innerHTML='<p class="error">'+esc(r.error.message)+'</p>';return}
- const media=await db.from("bizhunt_curated_businesses").select("id,logo_path,cover_path,gallery_paths,opening_hours,weekly_hours,phone,website,instagram").limit(500);
- if(media.error){el.innerHTML='<p class="error">'+esc(media.error.message)+'</p>';return}
- const byId=new Map((media.data||[]).map(x=>[String(x.id),x]));
- curatedEditorRecords=(r.data||[]).map(x=>({...x,...(byId.get(String(x.id))||{})}));
+ const records=[];const pageSize=100;
+ for(let offset=0;;offset+=pageSize){
+  const page=await db.rpc("bizhunt_founder_curated_records",{p_search:"",p_limit:pageSize,p_offset:offset});
+  if(page.error){el.innerHTML='<p class="error">'+esc(page.error.message)+'</p>';return}
+  const batch=page.data||[];
+  records.push(...batch);
+  if(batch.length<pageSize)break;
+ }
+ const mediaRows=[];
+ for(let offset=0;offset<records.length;offset+=pageSize){
+  const media=await db.from("bizhunt_curated_businesses").select("id,logo_path,cover_path,gallery_paths,opening_hours,weekly_hours,phone,website,instagram").range(offset,offset+pageSize-1).order("id");
+  if(media.error){el.innerHTML='<p class="error">'+esc(media.error.message)+'</p>';return}
+  mediaRows.push(...(media.data||[]));
+ }
+ const byId=new Map(mediaRows.map(x=>[String(x.id),x]));
+ curatedEditorRecords=records.map(x=>({...x,...(byId.get(String(x.id))||{})}));
  el.innerHTML='<label>Choose a community listing<select id="curatedEditorSelect"><option value="">Select a business…</option>'+curatedEditorRecords.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join("")+'</select></label><div id="curatedEditorFormHost"></div>';
  $("curatedEditorSelect").onchange=()=>showCuratedEditor($("curatedEditorSelect").value);
 }
