@@ -3,9 +3,6 @@
 -- Does not depend on Phase N4 loyalty triggers.
 -- Only notify a post's author of replies by other active members.
 begin;
-create unique index if not exists bizhunt_notifications_n5_comment_once
-  on public.bizhunt_notifications (target_id, user_id, kind, created_at)
-  where false; -- reserved no-op; actual event dedup is tracked below
 create table if not exists public.bizhunt_community_notification_events (
   comment_id uuid primary key references public.bizhunt_community_comments(id) on delete cascade,
   notification_id uuid unique references public.bizhunt_notifications(id) on delete set null,
