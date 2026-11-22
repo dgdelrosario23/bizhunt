@@ -71,6 +71,39 @@
   #view,#view *,#nav,#nav *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 
+/* Phase 92: focused GPU-friendly motion polish; existing stamp/success effects remain unchanged. */
+@media (prefers-reduced-motion:no-preference){
+  #results>.compact-shop,
+  #results .discover-gallery-card,
+  #view .business-detail-tab,
+  #view .discover-view-switch button,
+  #view .gallery-tile,
+  #view .discover-gallery-photo{
+    transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s ease,border-color .18s ease,background-color .18s ease,color .18s ease;
+  }
+  #results>.compact-shop:active,
+  #results .discover-gallery-card:active,
+  #view .gallery-tile:active,
+  #view .discover-gallery-photo:active{transform:scale(.985)}
+  #view .business-detail-tab:active,
+  #view .discover-view-switch button:active{transform:scale(.97)}
+  #view .business-detail-tab.active{transition:border-color .18s ease,color .18s ease}
+  #view .gallery-dialog[open]{animation:bh-photo-dialog-in .2s cubic-bezier(.2,.8,.2,1) both}
+  #view .gallery-dialog::backdrop{animation:bh-photo-backdrop-in .2s ease both}
+  @keyframes bh-photo-dialog-in{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes bh-photo-backdrop-in{from{background:rgba(17,27,54,0)}to{background:rgba(17,27,54,.8)}}
+}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  #results>.compact-shop:hover,
+  #results .discover-gallery-card:hover{transform:translateY(-2px);box-shadow:0 7px 20px rgba(39,56,128,.10)}
+  #view .gallery-tile:hover,
+  #view .discover-gallery-photo:hover{transform:scale(1.015)}
+}
+@media (prefers-reduced-motion:reduce){
+  #results>.compact-shop,#results .discover-gallery-card,#view .business-detail-tab,
+  #view .discover-view-switch button,#view .gallery-tile,#view .discover-gallery-photo,
+  #view .gallery-dialog,#view .gallery-dialog::backdrop{animation:none!important;transition:none!important}
+}
 /* Consistent, accessible customer navigation */
 #nav{z-index:1000;gap:2px;padding:8px 6px max(10px,env(safe-area-inset-bottom));box-shadow:0 -5px 20px rgba(39,56,128,.055)}
 #nav button{flex:1;min-width:0;min-height:52px;border-radius:13px;padding:5px 2px;align-content:center;gap:3px;color:#64718d;font-size:11px;font-weight:600}
