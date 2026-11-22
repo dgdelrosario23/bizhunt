@@ -1,0 +1,5 @@
+-- N7 rollback restores notification generation to its N4/N5 behavior.
+-- Review the N4 and N5 function definitions before restoring them; do NOT drop preferences
+-- until both trigger functions have been restored to avoid changing user choices silently.
+-- No automatic rollback is provided because replacing live SECURITY DEFINER functions
+-- without matching the deployed N4/N5 versions could disrupt scanner/comment transactions.
