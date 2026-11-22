@@ -2,6 +2,5 @@
 begin;
 drop trigger if exists bizhunt_notify_community_reply_insert on public.bizhunt_community_comments;
 drop function if exists public.bizhunt_notify_community_reply();
-drop index if exists public.bizhunt_notifications_n5_comment_once;
 drop table if exists public.bizhunt_community_notification_events;
 commit;
