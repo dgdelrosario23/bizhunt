@@ -95,7 +95,8 @@ async function loadOverviewV2(){
  '<div class="f1-queue"><span>Open content reports</span><strong>'+fmt(d.open_reports)+'</strong></div>'+
  '<p class="muted f1-note">Period comparisons use equal-length preceding windows. Business ownership and pending-action counts are current totals. Curated sample listings are excluded from registered-business totals.</p>';
 }
-async function load(){if(!db)return;const r=await db.rpc("founder_dashboard");if(r.error){$("content").innerHTML='<div class="panel"><h2>Dashboard unavailable</h2><p class="muted">This page is restricted to approved founder accounts. Run the founder analytics migration and authorize your account before using it.</p></div>';notice(r.error.message,true);return}$("notice").innerHTML="";draw(r.data);founderQuickLinks();await openFounderSection(founderSectionFromUrl(),{skipHistory:true})}
+async function loadFounderOverview(){if(founderOverviewPromise)return founderOverviewPromise;founderOverviewPromise=(async()=>{const r=await db.rpc("founder_dashboard");if(r.error){$("content").innerHTML='<div class="panel"><h2>Dashboard unavailable</h2><p class="muted">This page is restricted to approved founder accounts. Run the founder analytics migration and authorize your account before using it.</p></div>';notice(r.error.message,true);return}$("notice").innerHTML="";draw(r.data)})().finally(()=>{founderOverviewPromise=null});return founderOverviewPromise}
+async function load(){if(!db)return;founderQuickLinks();await openFounderSection(founderSectionFromUrl(),{skipHistory:true})}
 async function loadMissingPlaceModeration(){
  const el=$("missingPlaceModeration"),r=await db.rpc("bizhunt_founder_missing_queue");
  if(r.error){el.innerHTML='<div class="panel"><h2>📍 Missing place submissions</h2><p class="muted">Requires Phase 42 migration.</p><p class="error">'+esc(r.error.message)+'</p></div>';return}
@@ -123,6 +124,7 @@ const founderSections=[
 let founderActiveSection="overview";
 const founderLoadedSections=new Set();
 let founderNavigationToken=0;
+let founderOverviewPromise=null;
 function founderSectionFromUrl(){const name=new URLSearchParams(location.search).get("section");return founderSections.some(x=>x[0]===name)?name:"overview"}
 function founderQuickLinks(){renderFounderNavigation()}
 function renderFounderNavigation(){
@@ -141,7 +143,7 @@ async function openFounderSection(section,options={}){
  const visible={content:section==="overview",moderation:section==="moderation",claimQueue:section==="moderation",missingPlaceModeration:section==="moderation",curatedEditor:section==="listings",recordManagement:["users","businesses","logs"].includes(section)};
  for(const [id,show] of Object.entries(visible)){const el=$(id);if(el)el.hidden=!show}
  renderFounderNavigation();
- if(section==="overview")return;
+ if(section==="overview"){await loadFounderOverview();return;}
  if(section==="moderation"){
   if(!founderLoadedSections.has(section)){
    founderLoadedSections.add(section);
