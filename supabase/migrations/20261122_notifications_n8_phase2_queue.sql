@@ -18,6 +18,7 @@ create index if not exists bh_follower_jobs_due on public.bizhunt_follower_deliv
 alter table public.bizhunt_follower_delivery_jobs enable row level security;
 revoke all on public.bizhunt_follower_delivery_jobs from public,anon,authenticated;
 
+revoke execute on function public.bizhunt_broadcast_to_followers(uuid,text,uuid) from authenticated;
 alter table public.bizhunt_notifications add column if not exists announcement_type text;
 alter table public.bizhunt_notifications add column if not exists announcement_id uuid;
 alter table public.bizhunt_notifications drop constraint if exists bh_notifications_announcement_pair;
@@ -69,6 +70,7 @@ begin
   select * from public.bizhunt_follower_delivery_jobs
   where state='pending' and run_at<=now() order by run_at,id limit p_max_jobs for update skip locked
  loop
+  v_active:=false;v_title:=null;v_name:=null;
   select left(b.name,80) into v_name from public.businesses b where b.id=j.business_id;
   if j.source_type='promo' then
    select left(p.title,100),(p.active and p.starts_at<=now() and p.ends_at>now())
