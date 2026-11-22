@@ -99,7 +99,7 @@ begin
     'business',j.business_id,j.source_type,j.source_id from eligible e
    returning user_id
   )
-  select max(user_id),count(*) into v_last,v_rows from delivered;
+  select (array_agg(user_id order by user_id desc))[1],count(*) into v_last,v_rows from delivered;
   if v_rows=0 then
    update public.bizhunt_follower_delivery_jobs set state='complete',finished_at=now() where id=j.id;
   else
