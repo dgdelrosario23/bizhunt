@@ -1,8 +1,8 @@
 {
   "name": "BizHunt — Discover Local",
   "short_name": "BizHunt",
-  "start_url": "/bizhunt/app/",
-  "scope": "/bizhunt/",
+  "start_url": "/app/",
+  "scope": "/app/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#273880",
