@@ -33,27 +33,32 @@
 .business-benefits { gap: 18px; margin-top: 24px; }
 .benefit-icon { width: 48px; height: 48px; flex-basis: 48px; border-radius: 14px; font-size: 22px; }
 
-.cafe-showcase { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:12px; align-items:start; }
-.cafe-profile,.cafe-examples article { margin:0; border:1px solid #dce5f6; border-radius:20px; overflow:hidden; box-shadow:0 10px 25px #16377712; }
-.cafe-profile { background:#fff; }
-.cafe-cover { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; background:#e4ebf7; }
-.cafe-profile figcaption { position:relative; padding:40px 16px 16px; }
-.cafe-logo { position:absolute; top:-29px; left:16px; border-radius:50%; border:3px solid #fff; background:#fff; object-fit:cover; }
-.cafe-profile strong { display:block; color:#172552; font-size:22px; }
-.cafe-profile figcaption span,.cafe-profile p { color:#4f5d78; font-size:13px; }
-.cafe-profile p { margin:10px 0 0; }
+.cafe-showcase { display:grid; grid-template-columns:minmax(0,.95fr) minmax(0,1.15fr); gap:14px; align-items:center; }
+.cafe-profile { margin:0; border:6px solid #1d2028; border-radius:30px; overflow:hidden; background:#fff; box-shadow:0 14px 30px #1637772a; }
+.cafe-phone-top { height:28px; display:flex; align-items:center; position:relative; padding:0 12px; color:#11182b; font-size:10px; font-weight:800; }
+.cafe-phone-top i { position:absolute; left:50%; transform:translateX(-50%); width:48px; height:12px; border-radius:12px; background:#15171e; }
+.cafe-cover { display:block; width:100%; aspect-ratio:1.8; object-fit:cover; background:#e4ebf7; }
+.cafe-profile figcaption { position:relative; padding:34px 12px 14px; }
+.cafe-logo { position:absolute; top:-29px; left:12px; border-radius:50%; border:3px solid #fff; background:#fff; object-fit:cover; }
+.cafe-profile strong { display:block; color:#172552; font-size:19px; }
+.cafe-profile figcaption span,.cafe-profile p { color:#4f5d78; font-size:12px; }
+.cafe-profile p { margin:8px 0 0; }
+.cafe-profile-tabs { display:flex; gap:10px; margin-top:12px; border-bottom:1px solid #dce5f6; font-size:12px; }
+.cafe-profile-tabs b { color:#2349bc; border-bottom:2px solid currentColor; }
+.cafe-profile .cafe-hours { padding:6px 8px; background:#e7f6ed; color:#205537; border-radius:7px; }
 .cafe-examples { display:grid; gap:12px; }
-.cafe-examples article { padding:15px; }
-.cafe-loyalty { background:#352229; color:#fff6f0; }
-.cafe-promotion { background:#142963; color:#fff; }
-.cafe-label { display:block; font-weight:750; font-size:11px; letter-spacing:.05em; text-transform:uppercase; }
-.cafe-loyalty .cafe-label { color:#ffc89e; }
+.cafe-examples article { margin:0; padding:10px; border:1px solid #dce5f6; border-radius:18px; background:#fff; box-shadow:0 10px 25px #16377712; }
+.cafe-examples .cafe-panel-title { margin:0 0 7px; color:#172552; font-size:15px; font-weight:800; }
+.cafe-card-body { border-radius:12px; padding:13px; }
+.cafe-loyalty .cafe-card-body { background:linear-gradient(135deg,#57331e,#815638); color:#fff6f0; }
+.cafe-promotion .cafe-card-body { background:linear-gradient(135deg,#244b93,#102657); color:#fff; }
+.cafe-label { display:block; font-weight:750; font-size:10px; letter-spacing:.04em; text-transform:uppercase; }
+.cafe-loyalty .cafe-label { color:#ffe0c9; }
 .cafe-promotion .cafe-label { color:#d5e1ff; }
-.cafe-examples h3 { font-size:clamp(19px,2vw,25px); line-height:1.15; margin:8px 0 4px; }
+.cafe-examples h3 { font-size:clamp(19px,2vw,25px); line-height:1.15; margin:6px 0 4px; }
 .cafe-examples p { margin:0; font-size:13px; }
-.cafe-stamps { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:4px; margin:12px 0 7px; }
-.cafe-stamps span { display:grid; place-items:center; width:100%; max-width:32px; aspect-ratio:1; border-radius:50%; border:1px solid #c9aaa9; font-size:12px; }
-.cafe-stamps span:nth-child(-n+3) { background:#ffc89e; border-color:#ffc89e; color:#352229; font-weight:800; }
+.cafe-stamps { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:4px; margin:10px 0 6px; }
+.cafe-stamps span { display:grid; place-items:center; width:100%; max-width:36px; aspect-ratio:1.2; border-radius:50%; background:#fff; color:#214ca5; font-size:12px; font-weight:800; }
 .visit-flow { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:22px; padding:0; margin:0; list-style:none; }
 .visit-flow li { position:relative; padding:20px; border:1px solid #dce5f6; border-radius:18px; background:#f7f9ff; }
 .visit-flow li:not(:last-child)::after { content:"\2192"; position:absolute; top:21px; right:-22px; width:22px; text-align:center; color:#4169e1; font-weight:800; }
@@ -76,27 +81,27 @@
 <main><section class="hero" id="home"><div class="wrap hero-grid"><div class="hero-copy"><span class="eyebrow">✦ The Local Discovery & Loyalty App</span><h1>Discover local favorites.<br>Collect rewards.<br><span>Make every visit count.</span></h1><p class="lead">Find local spots, collect loyalty stamps, and unlock rewards.</p><div class="actions"><a class="btn" href="/app/">▣ &nbsp; Explore BizHunt <small>For Customers</small></a><a class="btn light" href="#for-business">▤ &nbsp; Grow Your Business <small>For Business Owners</small></a></div></div><div class="visual" aria-label="Illustrative BizHunt mobile app previews"><div class="device device-main"><div class="device-screen"><div class="device-status">9:41 <span>● ▰ ▰</span></div><div class="device-header"><strong><span class="brand-pin">●</span> BizHunt</strong><span>♧</span></div><div class="greeting"><strong>Hi, Explorer! 👋</strong><span class="level-pill">⚡ Lv. 6 Explorer</span></div><div class="device-search">⌕ &nbsp; Search for restaurants, cafés, and more</div><div class="device-shortcuts"><div><span>📍</span>Nearby</div><div><span>🎟️</span>Deals</div><div><span>⭐</span>Rewards</div><div><span>👥</span>Communities</div></div><div class="device-banner"><div><strong>Discover<br>Local Deals</strong><small>Dine, shop, and earn rewards</small></div><span>☕🥐</span></div><div class="device-section-title"><strong>Nearby Businesses</strong><span>See All</span></div><div class="device-cards"><div class="device-store"><div class="store-photo photo-one">☕</div><strong>Local Coffee Spot</strong><small>Café · Nearby</small></div><div class="device-store"><div class="store-photo photo-two">🍜</div><strong>Neighborhood Eats</strong><small>Restaurant · Nearby</small></div></div><div class="device-tabs"><span>◆<small>Discover</small></span><span>♧<small>Deals</small></span><span class="active">▦<small>My QR</small></span><span>▢<small>Wallet</small></span><span>♙<small>Profile</small></span></div></div></div><div class="device device-explorer"><div class="device-screen"><div class="device-status">9:41 <span>● ▰ ▰</span></div><div class="explorer-screen-head">‹ <strong>Explorer</strong></div><div class="medal">✦</div><h3>Level 6</h3><p>Local Adventurer</p><div class="xp-track"><span></span></div><div class="xp-number">1,240 / 1,400 XP</div><div class="badge-panel"><strong>My Badges <small>See All</small></strong><div class="badge-row"><div>🔮<small>First Steps</small></div><div>🏆<small>Coffee Explorer</small></div><div>🌟<small>Stamp Collector</small></div></div><div class="explorer-menu">♧ &nbsp; Explorer Missions <span>›</span></div><div class="explorer-menu">⊕ &nbsp; XP History <span>›</span></div></div></div></div></div></section><div class="feature-strip wrap"><div><span>📍</span><strong>Discover Local Places</strong><small>Find cafés, restaurants, and hidden gems near you.</small></div><div><span>🎟️</span><strong>Earn Rewards</strong><small>Collect stamps and redeem exclusive perks.</small></div><div><span>👥</span><strong>Join Communities</strong><small>Connect through groups and local experiences.</small></div><div><span>📊</span><strong>Grow Your Business</strong><small>Attract customers and build loyalty.</small></div></div>
 <section class="section" id="for-users"><div class="wrap"><div class="center"><span class="eyebrow">For curious locals</span><h2>More reasons to explore</h2></div><div class="grid"><article class="tile"><div class="emoji">📍</div><h3>Discover nearby places</h3><p>Browse local businesses, explore maps, and save places you want to visit.</p></article><article class="tile"><div class="emoji">🎟️</div><h3>Collect stamps & rewards</h3><p>Build loyalty at participating businesses and redeem eligible rewards.</p></article><article class="tile"><div class="emoji">🧭</div><h3>Level up as you explore</h3><p>Earn Explorer XP, complete missions, and celebrate your achievements.</p></article></div></div></section>
 <section class="section business-showcase" id="for-business"><div class="wrap"><div class="business-grid"><div class="business-copy"><span class="eyebrow">▣ &nbsp; For Local Businesses</span><h2>Turn every visit into <span>loyal customers.</span></h2><p class="lead">Help nearby customers find you and give them a reason to return.</p><div class="business-benefits"><div class="benefit"><div class="benefit-icon">🏪</div><div><h3>Showcase Your Business</h3><p>Share photos, hours, and ways to get in touch.</p></div></div><div class="benefit"><div class="benefit-icon">✦</div><div><h3>Create Loyalty Programs</h3><p>Reward repeat visits with digital stamp cards.</p></div></div><div class="benefit"><div class="benefit-icon">🏷️</div><div><h3>Run Promotions & Vouchers</h3><p>Share seasonal deals and vouchers.</p></div></div><div class="benefit"><div class="benefit-icon">📊</div><div><h3>Track Your Growth</h3><p>Track stamps, redemptions, and campaign activity.</p></div></div></div></div><div class="cafe-showcase" aria-label="ABC Cafe examples">
-  <figure class="cafe-profile">
+  <figure class="cafe-profile"><div class="cafe-phone-top" aria-hidden="true"><span>9:41</span><i></i></div>
     <img class="cafe-cover" src="https://cjvcqdlwadmuktxtdxcz.supabase.co/storage/v1/object/public/bizhunt-business-media/91497325-df27-4a67-9a79-d25aaab02e5f/2374a6f5-9e43-4cb0-8aa7-898699086372/cover/250e8890-fe59-4a48-acde-d8661b3d8d1e.jpg" alt="ABC Cafe cover photo" loading="lazy">
     <figcaption>
       <img class="cafe-logo" src="https://cjvcqdlwadmuktxtdxcz.supabase.co/storage/v1/object/public/bizhunt-business-media/91497325-df27-4a67-9a79-d25aaab02e5f/2374a6f5-9e43-4cb0-8aa7-898699086372/logo/c7bd0272-9738-41fd-a30d-754d2b7e485a.jpg" alt="ABC Cafe logo" width="58" height="58" loading="lazy">
       <strong>ABC Cafe</strong>
       <span>Caf&eacute; &middot; Angeles City, Pampanga</span>
-      <p>Coffee, matcha, and more</p>
+      <div class="cafe-profile-tabs" aria-hidden="true"><b>Overview</b><span>Rewards</span><span>Promos</span></div><p>Coffee, matcha, and more</p><p class="cafe-hours">6:00 AM &ndash; 11:00 PM</p>
     </figcaption>
   </figure>
   <div class="cafe-examples">
     <article class="cafe-loyalty">
-      <span class="cafe-label">Digital stamp card example</span>
+      <p class="cafe-panel-title">Loyalty Card</p><div class="cafe-card-body"><span class="cafe-label">Digital stamp card example</span>
       <h3>ABC Club</h3>
       <p>Earn a free iced latte</p>
       <div class="cafe-stamps" aria-label="3 of 5 stamps collected"><span aria-hidden="true">&#10003;</span><span aria-hidden="true">&#10003;</span><span aria-hidden="true">&#10003;</span><span aria-hidden="true">4</span><span aria-hidden="true">5</span></div>
-      <small>2 more stamps to go</small>
+      <small>2 more stamps to go</small></div>
     </article>
     <article class="cafe-promotion">
-      <span class="cafe-label">In-store promotion example</span>
+      <p class="cafe-panel-title">Promotions</p><div class="cafe-card-body"><span class="cafe-label">In-store promotion example</span>
       <h3>Buy One, Get One</h3>
-      <p>Get a second item of the same or similar price.</p>
+      <p>Get a second item of the same or similar price.</p></div>
     </article>
   </div>
 </div></div></div></section>
