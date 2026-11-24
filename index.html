@@ -37,15 +37,6 @@
 .cafe-profile { margin:0; border:6px solid #1d2028; border-radius:30px; overflow:hidden; background:#fff; box-shadow:0 14px 30px #1637772a; }
 .cafe-phone-top { height:28px; display:flex; align-items:center; position:relative; padding:0 12px; color:#11182b; font-size:10px; font-weight:800; }
 .cafe-phone-top i { position:absolute; left:50%; transform:translateX(-50%); width:48px; height:12px; border-radius:12px; background:#15171e; }
-.cafe-cover { display:block; width:100%; aspect-ratio:1.8; object-fit:cover; background:#e4ebf7; }
-.cafe-profile figcaption { position:relative; padding:34px 12px 14px; }
-.cafe-logo { position:absolute; top:-29px; left:12px; border-radius:50%; border:3px solid #fff; background:#fff; object-fit:cover; }
-.cafe-profile strong { display:block; color:#172552; font-size:19px; }
-.cafe-profile figcaption span,.cafe-profile p { color:#4f5d78; font-size:12px; }
-.cafe-profile p { margin:8px 0 0; }
-.cafe-profile-tabs { display:flex; gap:10px; margin-top:12px; border-bottom:1px solid #dce5f6; font-size:12px; }
-.cafe-profile-tabs b { color:#2349bc; border-bottom:2px solid currentColor; }
-.cafe-profile .cafe-hours { padding:6px 8px; background:#e7f6ed; color:#205537; border-radius:7px; }
 .cafe-examples { display:grid; gap:12px; }
 .cafe-examples article { margin:0; padding:10px; border:1px solid #dce5f6; border-radius:18px; background:#fff; box-shadow:0 10px 25px #16377712; }
 .cafe-examples .cafe-panel-title { margin:0 0 7px; color:#172552; font-size:15px; font-weight:800; }
@@ -81,12 +72,12 @@
 .cafe-phone::before,.cafe-phone::after { content:""; position:absolute; z-index:1; width:3px; background:linear-gradient(90deg,#53565e,#a9acb4,#45484f); border-radius:2px; }
 .cafe-phone::before { left:-3px; top:65px; height:26px; box-shadow:0 33px #656872; }
 .cafe-phone::after { right:-3px; top:92px; height:41px; }
-.cafe-phone .cafe-profile { position:relative; border:4px solid #0e1014; border-radius:33px; box-shadow:none; min-height:440px; aspect-ratio:9/17; display:flex; flex-direction:column; }
-.cafe-profile::after { content:""; display:block; width:32%; height:4px; border-radius:4px; background:#15171d; margin:auto auto 8px; flex:none; }
+.cafe-phone .cafe-profile { position:relative; border:4px solid #0e1014; border-radius:33px; box-shadow:none; display:flex; flex-direction:column; }
+.cafe-profile::after { content:""; display:block; width:32%; height:4px; border-radius:4px; background:#15171d; margin:7px auto 8px; flex:none; }
 .cafe-phone-top { justify-content:space-between; height:31px; flex:none; }
 .cafe-phone-top i { height:14px; width:49px; box-shadow:inset 0 1px 2px #ffffff39; }
 .cafe-phone-top i::after { content:""; position:absolute; right:5px; top:4px; width:6px; height:6px; border-radius:50%; background:radial-gradient(circle at 60% 40%,#496187,#141b30 50%,#06080c); }
-.cafe-phone .cafe-cover { aspect-ratio:4/3; }
+.cafe-screen { display:block; width:100%; height:auto; flex:none; }
 .cafe-phone-status { display:flex; align-items:center; gap:3px; font-size:8px; }
 .cafe-phone-status b { width:11px; height:6px; border-radius:2px; border:1px solid #202531; background:#202531; box-shadow:inset 0 0 0 1px white; }
 .cafe-promotion .cafe-card-body { position:relative; isolation:isolate; overflow:hidden; padding:14px 11px 13px 44%; min-height:150px; background:#102657; }
@@ -101,13 +92,7 @@
 <section class="section" id="for-users"><div class="wrap"><div class="center"><span class="eyebrow">For curious locals</span><h2>More reasons to explore</h2></div><div class="grid"><article class="tile"><div class="emoji">📍</div><h3>Discover nearby places</h3><p>Browse local businesses, explore maps, and save places you want to visit.</p></article><article class="tile"><div class="emoji">🎟️</div><h3>Collect stamps & rewards</h3><p>Build loyalty at participating businesses and redeem eligible rewards.</p></article><article class="tile"><div class="emoji">🧭</div><h3>Level up as you explore</h3><p>Earn Explorer XP, complete missions, and celebrate your achievements.</p></article></div></div></section>
 <section class="section business-showcase" id="for-business"><div class="wrap"><div class="business-grid"><div class="business-copy"><span class="eyebrow">▣ &nbsp; For Local Businesses</span><h2>Turn every visit into <span>loyal customers.</span></h2><p class="lead">Help nearby customers find you and give them a reason to return.</p><div class="business-benefits"><div class="benefit"><div class="benefit-icon">🏪</div><div><h3>Showcase Your Business</h3><p>Share photos, hours, and ways to get in touch.</p></div></div><div class="benefit"><div class="benefit-icon">✦</div><div><h3>Create Loyalty Programs</h3><p>Reward repeat visits with digital stamp cards.</p></div></div><div class="benefit"><div class="benefit-icon">🏷️</div><div><h3>Run Promotions & Vouchers</h3><p>Share seasonal deals and vouchers.</p></div></div><div class="benefit"><div class="benefit-icon">📊</div><div><h3>Track Your Growth</h3><p>Track stamps, redemptions, and campaign activity.</p></div></div></div></div><div class="cafe-showcase" aria-label="ABC Cafe examples">
   <div class="cafe-phone"><figure class="cafe-profile"><div class="cafe-phone-top" aria-hidden="true"><span>9:41</span><i></i><span class="cafe-phone-status">&#9602;&#9604;&#9606; <b></b></span></div>
-    <img class="cafe-cover" src="https://cjvcqdlwadmuktxtdxcz.supabase.co/storage/v1/object/public/bizhunt-business-media/91497325-df27-4a67-9a79-d25aaab02e5f/2374a6f5-9e43-4cb0-8aa7-898699086372/cover/250e8890-fe59-4a48-acde-d8661b3d8d1e.jpg" alt="ABC Cafe cover photo" loading="lazy">
-    <figcaption>
-      <img class="cafe-logo" src="https://cjvcqdlwadmuktxtdxcz.supabase.co/storage/v1/object/public/bizhunt-business-media/91497325-df27-4a67-9a79-d25aaab02e5f/2374a6f5-9e43-4cb0-8aa7-898699086372/logo/c7bd0272-9738-41fd-a30d-754d2b7e485a.jpg" alt="ABC Cafe logo" width="58" height="58" loading="lazy">
-      <strong>ABC Cafe</strong>
-      <span>Caf&eacute; &middot; Angeles City, Pampanga</span>
-      <div class="cafe-profile-tabs" aria-hidden="true"><b>Overview</b><span>Rewards</span><span>Promos</span></div><p>Coffee, matcha, and more</p><p class="cafe-hours">6:00 AM &ndash; 11:00 PM</p>
-    </figcaption>
+    <img class="cafe-screen" src="/assets/abc-cafe-app-preview.png" width="514" height="941" alt="ABC Cafe business profile in the BizHunt app, with cover photo, business details, and photo gallery" loading="lazy">
   </figure></div>
   <div class="cafe-examples">
     <article class="cafe-loyalty">
