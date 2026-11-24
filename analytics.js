@@ -1,5 +1,5 @@
 (()=>{"use strict";
-const key="bh_analytics_consent_v1", id="GTM-MTKLSS3J";
+const key="bh_analytics_consent_v1", id="GTM-56V7CC35";
 let loaded=false, allowed=false;
 function read(){try{return localStorage.getItem(key)}catch{return null}}
 function save(v){try{localStorage.setItem(key,v)}catch{}}
