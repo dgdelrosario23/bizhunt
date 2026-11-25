@@ -2,4 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://bizhunt.app/</loc></url>
   <url><loc>https://bizhunt.app/vip/</loc></url>
+  <url><loc>https://bizhunt.app/businesses/</loc></url>
+  <url><loc>https://bizhunt.app/loyalty-program/</loc></url>
+  <url><loc>https://bizhunt.app/discover/</loc></url>
+  <url><loc>https://bizhunt.app/about/</loc></url>
+  <url><loc>https://bizhunt.app/faq/</loc></url>
 </urlset>

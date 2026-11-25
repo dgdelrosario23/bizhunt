@@ -1,7 +1,7 @@
 (()=>{"use strict";
 const key="bh_analytics_consent_v2", previousKey="bh_analytics_consent_v1", id="GTM-56V7CC35";
 // Public routes only. Authenticated routes must remain off until the GTM privacy review is complete.
-const routes=new Set(["/","/vip/"]);
+const routes=new Set(["/","/vip/","/businesses/","/loyalty-program/","/discover/","/about/","/faq/"]);
 const events=new Set(["get_started_click","join_bizhunt_click","explore_bizhunt_click","grow_business_click","vip_explore_click","vip_inquiry_submit"]);
 let loaded=false, allowed=false;
 function read(){try{return localStorage.getItem(key)??(localStorage.getItem(previousKey)==="no"?"no":null)}catch{return null}}
