@@ -44,7 +44,7 @@
     lastScreen = name;
     gtag("event", name, {...fields, send_to:measurementId});
   }
-  window.bizhuntAnalytics = Object.freeze({event,screen});
+  window.bizhuntAnalytics = Object.freeze({event,screen,openPreferences});
   function start() {
     if (loaded || !allowed || !entrySafe) return;
     loaded = true;
@@ -66,11 +66,16 @@
   panel.style.cssText="border:1px solid #dce4f4;border-radius:16px;padding:24px;max-width:min(420px,90vw);color:#101a35;background:#fff";
   panel.innerHTML='<h2 style="margin:0 0 12px;font-size:20px">Analytics preferences</h2><p>Allow optional Google Analytics to measure visits, general app screens and successful actions. We do not send account details, form values, QR codes or record IDs in our analytics events.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" style="background:#273880;color:white;border:0;border-radius:10px;padding:10px 14px;cursor:pointer" data-choice="yes">Allow analytics</button><button type="button" style="background:#eef2ff;color:#273880;border:0;border-radius:10px;padding:10px 14px;cursor:pointer" data-choice="no">Decline</button></div>';
   document.body.append(panel);
-  const button=document.createElement("button");
-  button.type="button"; button.textContent="Analytics preferences"; button.id="bhAppAnalyticsPreferences";
-  button.style.cssText="display:block;margin:16px auto 110px;padding:6px 10px;color:#273880;background:transparent;border:0;font:12px system-ui;cursor:pointer;text-decoration:underline";
-  document.body.append(button);
-  button.addEventListener("click",()=>{if(!panel.open)panel.showModal()});
+  function openPreferences() { if (!panel.open) panel.showModal(); }
+  // Customer app owns the settings entry in Profile; do not inject a global footer.
+  // Other standalone routes retain their consent entry until they have settings.
+  if (route !== "/app/") {
+    const button=document.createElement("button");
+    button.type="button"; button.textContent="Analytics preferences"; button.id="bhAppAnalyticsPreferences";
+    button.style.cssText="display:block;margin:16px auto 110px;padding:6px 10px;color:#273880;background:transparent;border:0;font:12px system-ui;cursor:pointer;text-decoration:underline";
+    document.body.append(button);
+    button.addEventListener("click",openPreferences);
+  }
   function revoke() {
     allowed=false;
     if (loaded) { gtag("consent","update",{analytics_storage:"denied"}); location.reload(); }
