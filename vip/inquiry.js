@@ -31,6 +31,7 @@
       });
       if (result.error) throw result.error;
       form.reset();
+      window.bizhuntAnalytics?.event("vip_inquiry_submit");
       show("Thank you. Your inquiry has been received. We'll be in touch soon.");
     } catch {
       show("We couldn't save your inquiry right now. Please try again in a moment.");
