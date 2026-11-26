@@ -142,6 +142,90 @@ body.founder-sidebar-collapsed{--founder-sidebar-width:76px}
  .founder-workspace #content .grid{gap:9px}
  .founder-workspace #content .f1-metric{padding:10px}
 }
+/* Management workspaces: keep record and editor behavior intact. */
+.founder-workspace #recordManagement .founder-management-toolbar,
+.founder-workspace #curatedEditor .founder-management-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:15px 0 12px}
+.founder-workspace #recordManagement .manage-toolbar{display:flex;flex:1 1 290px;flex-wrap:nowrap;align-items:center;min-width:0;gap:8px}
+.founder-workspace #recordManagement .manage-toolbar input,
+.founder-workspace #curatedEditor #curatedSearch{border:1px solid #d0daed;border-radius:10px;background:#fff;min-height:44px;margin:0;padding:10px 12px;font-size:13px;min-width:0}
+.founder-workspace #recordManagement .manage-toolbar button,.founder-workspace #curatedEditor #newCuratedListing{min-height:44px;border-radius:10px;padding:10px 14px;font-size:13px;white-space:nowrap}
+.founder-workspace #recordManagement .manage-view-controls,
+.founder-workspace #curatedEditor .curated-editor-options{display:flex;flex-wrap:wrap;gap:8px 13px;align-items:center;margin:0}
+.founder-workspace #recordManagement .manage-view-controls label,
+.founder-workspace #curatedEditor .curated-editor-options label{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:650;color:#596987;white-space:nowrap}
+.founder-workspace #recordManagement .manage-view-controls select,
+.founder-workspace #curatedEditor .curated-editor-options select{min-height:44px;min-width:66px;width:auto;border:1px solid #d0daed;background:#fff;color:#24345e;border-radius:9px;padding:8px;font:inherit}
+.founder-workspace #curatedEditor .curated-search-label{flex:1 1 220px;min-width:0}
+.founder-workspace #recordManagement .management-tabs{gap:6px;margin:12px 0}
+.founder-workspace #recordManagement .management-tabs button{border-radius:9px;min-height:42px}
+.founder-management-summary{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:12px 0 10px;padding:0 2px 9px;border-bottom:1px solid #e3e9f4;color:#596987;font-size:12px;font-weight:650}
+.founder-management-state{padding:28px 15px;text-align:center;border:1px dashed #cbd7eb;border-radius:12px;background:#f8faff;color:#596987;font-size:13px;line-height:1.5}
+.founder-management-state strong{font-size:15px;color:#24345e;display:block}
+.founder-management-state p{margin:6px 0 0}
+.founder-record-statuses{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:5px;min-width:0}
+.founder-record-badge{display:inline-flex;align-items:center;justify-content:center;min-height:23px;border-radius:6px;padding:3px 7px;font-size:11px;line-height:1.25;font-weight:700;white-space:nowrap;background:#edf2fa;color:#435372}
+.founder-record-badge--positive{background:#e4f5eb;color:#17613f}
+.founder-record-badge--attention{background:#fff1d5;color:#805308}
+.founder-record-badge--neutral{background:#edf2fa;color:#435372}
+.founder-workspace #recordManagement .manage-records,.founder-workspace #curatedEditor .curated-results{gap:8px}
+.founder-workspace #recordManagement details.record-card{padding:0}
+.founder-workspace #recordManagement .record-card[open]>summary{background:#f7f9fe;border-bottom:1px solid #e3eaf5;margin-bottom:12px}
+.founder-workspace #recordManagement .record-card>summary,
+.founder-workspace #recordManagement .founder-business-tile,
+.founder-workspace #curatedEditor .curated-result{min-height:66px;gap:10px;padding:10px 13px!important;border-radius:12px}
+.founder-workspace #recordManagement .record-listing-head{gap:9px}
+.founder-workspace #recordManagement .record-listing-icon,
+.founder-workspace #curatedEditor .curated-result-image,
+.founder-workspace #curatedEditor .curated-result-placeholder{width:36px;height:36px;flex:0 0 36px;border-radius:9px;background:#edf2fa}
+.founder-workspace #recordManagement .record-listing-icon img{display:block;width:100%!important;height:100%!important;object-fit:cover}
+.founder-workspace #recordManagement .record-open-hint,.founder-workspace #curatedEditor .curated-result-edit{color:#3453a1;font-weight:750;font-size:12px;flex:0 0 auto;white-space:nowrap;text-align:right}
+.founder-workspace #recordManagement .manage-records-list .record-listing-text{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}
+.founder-workspace #recordManagement .manage-records-tiles .record-card>summary,
+.founder-workspace #recordManagement .manage-records-tiles .founder-business-tile{display:grid!important;grid-template-columns:minmax(0,1fr) auto;align-items:center}
+.founder-workspace #recordManagement .manage-records-tiles .record-listing-head{grid-column:1/-1}
+.founder-workspace #recordManagement .manage-records-tiles .founder-record-statuses{justify-content:flex-start;grid-column:1}
+.founder-workspace #recordManagement .manage-records-tiles .record-open-hint{grid-column:2}
+.founder-workspace #curatedEditor .curated-result:hover{background:#f8faff;border-color:#aabce5}
+.founder-workspace #curatedEditor .curated-result.is-selected{border:1px solid #4169e1;box-shadow:inset 3px 0 0 #4169e1;background:#f5f8ff}
+.founder-workspace #curatedEditor .curated-results-tiles .curated-result{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center}
+.founder-workspace #curatedEditor .curated-results-tiles :is(.curated-result-image,.curated-result-placeholder){width:100%;height:100px;grid-column:1/-1}
+.founder-workspace #curatedEditor .curated-results-tiles .curated-result-copy{grid-column:1/-1}
+.founder-workspace #curatedEditor .curated-results-tiles .founder-record-statuses{grid-column:1;justify-content:flex-start}
+.founder-workspace #curatedEditor .curated-results-tiles .curated-result-edit{grid-column:2}
+.founder-workspace #recordManagement .manage-pagination,
+.founder-workspace #curatedEditor .curated-pagination{justify-content:flex-end;gap:8px;margin:14px 0 0}
+.founder-workspace #recordManagement .manage-pagination button,
+.founder-workspace #curatedEditor .curated-pagination button{min-height:44px;border:1px solid #d8e2f3;border-radius:9px;background:#fff;color:#273880;font-size:13px;padding:9px 14px}
+.founder-workspace #recordManagement .manage-pagination button:disabled,
+.founder-workspace #curatedEditor .curated-pagination button:disabled{opacity:.5;cursor:not-allowed}
+.founder-workspace :is(#recordManagement,#curatedEditor) :is(button,input,select,summary):focus-visible{outline:3px solid #4169e1;outline-offset:2px}
+@media(max-width:1070px){
+ .founder-workspace #recordManagement .manage-records-list .record-card>summary,
+ .founder-workspace #recordManagement .manage-records-list .founder-business-tile,
+ .founder-workspace #curatedEditor .curated-results-list .curated-result{display:grid!important;grid-template-columns:minmax(0,1fr) auto;column-gap:8px;row-gap:5px}
+ .founder-workspace #recordManagement .manage-records-list .record-listing-head{grid-column:1;grid-row:1}
+ .founder-workspace #recordManagement .manage-records-list .record-listing-text{display:flex;flex-direction:column;gap:3px}
+ .founder-workspace #recordManagement .manage-records-list .founder-record-statuses,
+ .founder-workspace #curatedEditor .curated-results-list .founder-record-statuses{grid-column:1;grid-row:2;justify-content:flex-start}
+ .founder-workspace #recordManagement .manage-records-list .record-open-hint,
+ .founder-workspace #curatedEditor .curated-results-list .curated-result-edit{grid-column:2;grid-row:1/span 2;align-self:center;min-width:0}
+ .founder-workspace #curatedEditor .curated-results-list .curated-result{grid-template-columns:36px minmax(0,1fr) auto}
+ .founder-workspace #curatedEditor .curated-results-list .curated-result-copy{grid-column:2;grid-row:1}
+ .founder-workspace #curatedEditor .curated-results-list .founder-record-statuses{grid-column:2}
+ .founder-workspace #curatedEditor .curated-results-list .curated-result-edit{grid-column:3}
+ .founder-workspace #curatedEditor .curated-results-list .curated-result-image,
+ .founder-workspace #curatedEditor .curated-results-list .curated-result-placeholder{grid-column:1;grid-row:1/span 2;align-self:start}
+}
+@media(max-width:650px){
+ .founder-workspace #recordManagement .manage-toolbar,.founder-workspace #curatedEditor .curated-search-label{flex:1 1 100%}
+ .founder-workspace #recordManagement .manage-view-controls,.founder-workspace #curatedEditor .curated-editor-options{gap:8px;justify-content:flex-start}
+ .founder-workspace #recordManagement .manage-view-controls label,.founder-workspace #curatedEditor .curated-editor-options label{font-size:11px}
+ .founder-workspace #recordManagement .record-card>summary,
+ .founder-workspace #recordManagement .founder-business-tile,
+ .founder-workspace #curatedEditor .curated-result{padding:10px!important}
+ .founder-workspace #recordManagement .record-listing-icon{width:30px;height:30px;flex-basis:30px}
+ .founder-workspace #recordManagement .record-open-hint,.founder-workspace #curatedEditor .curated-result-edit{font-size:11px}
+}
 </style>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"></head><body><nav id="founderSidebar" class="founder-sidebar" aria-label="Founder sections"></nav><div class="shell founder-workspace"><header class="hero founder-console-header"><div class="founder-header-eyebrow">BizHunt · Founder console</div><h1 id="founderPageTitle">Overview</h1><p id="founderPageSubtitle">Platform growth and activity</p></header><div id="notice" role="status"></div><div id="content"><div class="panel">Checking founder access…</div></div><div id="moderation" hidden></div><section id="missingPlaceModeration" hidden></section><section id="curatedEditor" class="panel" hidden><h2>Community listings</h2><p class="muted">Create and manage listings, photos, operating hours, and location pins in one place.</p><div id="curatedEditorBody"><button id="loadCuratedEditor" type="button">Load community listings</button></div></section><section id="recordManagement" hidden></section></div><nav id="founderMobileNav" class="founder-mobile-nav" aria-label="Founder mobile sections"></nav><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script>
 const SUPABASE_URL="https://cjvcqdlwadmuktxtdxcz.supabase.co",KEY="sb_publishable_V1lSJqiAyQtSgo0T3gY1Cg_tU4xYCsx";const $=id=>document.getElementById(id),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));const fmt=n=>Number(n||0).toLocaleString();let db;let overviewDays=30;
@@ -268,14 +352,39 @@ async function openFounderSection(section,options={}){
 window.addEventListener("popstate",()=>openFounderSection(founderSectionFromUrl(),{skipHistory:true}));
 async function loadClaims(){let el=document.getElementById("claimQueue");if(!el){el=document.createElement("section");el.id="claimQueue";document.getElementById("moderation").after(el)}let r=await db.rpc("founder_community_claims");if(r.error){el.innerHTML='<div class="panel"><h2>🏪 Community claims</h2><p class="muted">Claim review unavailable. Apply Phase 25 SQL and check founder permissions.</p></div>';return}let rows=r.data||[];el.innerHTML='<div class="panel"><h2>🏪 Community business claims ('+rows.filter(x=>x.status==="pending").length+' pending)</h2><p class="muted">Confirm ownership independently before approval. Approval does not transfer access automatically.</p>'+rows.map(x=>'<div class="moderation-item"><strong>'+esc(x.business_name)+'</strong><p>'+esc(x.contact_name)+' · '+esc(x.role_at_business)+'</p><p class="muted">'+esc(x.contact_email)+' · '+esc(x.status)+'</p><p>'+esc(x.message||"")+'</p>'+(x.evidence_url&&/^https:\/\//.test(x.evidence_url)?'<a target="_blank" rel="noopener noreferrer" href="'+esc(x.evidence_url)+'">Evidence link</a>':'')+(x.status==="pending"?'<div class="moderation-actions"><button data-claim="'+esc(x.id)+'" data-decision="approved">Approve</button><button data-claim="'+esc(x.id)+'" data-decision="rejected">Reject</button></div>':'')+'</div>').join("")+'</div>';el.querySelectorAll("[data-claim]").forEach(b=>b.onclick=async()=>{if(!confirm("Confirm "+b.dataset.decision+"? This only records the review decision."))return;b.disabled=true;let r=await db.rpc("founder_review_community_claim",{p_claim_id:b.dataset.claim,p_action:b.dataset.decision});if(r.error){notice(r.error.message,true);b.disabled=false}else{notice("Claim decision recorded.");await loadClaims()}})}
 
-let managementType="users",managementSearch="",managementOffset=0,managementView="tiles",managementPageSize=10;
+let managementType="users",managementSearch="",managementOffset=0,managementView="list",managementPageSize=10,recordManagementRequest=0;
 const managementFields={curated:["name","category","location","description"],unclaimed_businesses:["name","category","location","description","phone","website","instagram"],users:["display_name","username","bio"],businesses:["name","category","location","description","phone","website","instagram"]};
+function founderRecordStatusUI(x,type){
+ const badges=[],badge=(label,tone)=>badges.push('<span class="founder-record-badge founder-record-badge--'+tone+'">'+esc(label)+'</span>');
+ if(type==="users"){
+  if(x.email_confirmed_at===null)badge("Email not confirmed","attention");
+  else if(typeof x.email_confirmed_at==="string"&&x.email_confirmed_at)badge("Email confirmed","positive");
+ }else if(type==="curated"){
+  if(x.archived_at===null)badge("Not archived","neutral");
+  else if(typeof x.archived_at==="string"&&x.archived_at)badge("Archived","attention");
+ }else{
+  if(x.is_unclaimed===true||(x.is_unclaimed!==false&&x.owner_id===null))badge("Unclaimed","attention");
+  else if(x.is_unclaimed===false||(typeof x.owner_id==="string"&&x.owner_id))badge("Claimed","positive");
+  if(x.verification_status==="verified")badge("Verified business","positive");
+  else if(x.verification_status==="unverified")badge("Not verified","neutral");
+ }
+ return badges.length?'<span class="founder-record-statuses">'+badges.join("")+'</span>':"";
+}
+function founderManagementKind(type){return type==="users"?"users":type==="curated"?"listings":type==="unclaimed_businesses"?"unclaimed businesses":"businesses"}
+function founderManagementEmpty(kind,query,laterPage=false){
+ const title=laterPage?"No records on this page":query?"No matching "+kind:"No "+kind+" to display";
+ const description=laterPage?"Use Previous to return to the earlier page.":query?"Try a different search.":kind==="listings"?"Select Add listing to create a community listing.":"Records will appear here when available.";
+ return '<div class="founder-management-state" role="status"><strong>'+esc(title)+'</strong><p>'+esc(description)+'</p></div>';
+}
 async function loadRecordManagement(){
  const el=$("recordManagement");if(!el)return;
+ const request=++recordManagementRequest,navigationToken=founderNavigationToken;
+ el.innerHTML='<div class="panel"><div class="founder-management-state" role="status">Loading '+esc(founderManagementKind(managementType))+'…</div></div>';
  let r=managementType==="curated"?await db.rpc("bizhunt_founder_curated_records",{p_search:managementSearch,p_limit:managementPageSize,p_offset:managementOffset}):await db.rpc("bizhunt_founder_records",{p_type:managementType,p_search:managementSearch,p_limit:managementPageSize,p_offset:managementOffset});
+ if(request!==recordManagementRequest||navigationToken!==founderNavigationToken)return;
  if(r.error){el.innerHTML='<div class="panel"><h2>👥 Users & businesses</h2><p class="muted">Record management requires Phase 39 SQL migration and founder admin access.</p><p class="error">'+esc(r.error.message)+'</p></div>';return}
  let records=r.data||[];
- el.innerHTML='<div class="panel"><h2>'+esc(founderActiveSection==="users"?"Registered users":founderActiveSection==="listings"?"Community listings":"Registered businesses")+'</h2><p class="muted">Sensitive credentials are never displayed. Editing is limited to approved fields. Deletions are permanent and may cascade to linked records.</p><div class="management-tabs">'+(founderActiveSection==="businesses"?'<button data-management="businesses" class="'+(managementType==="businesses"?"active":"")+'">All businesses</button><button data-management="unclaimed_businesses" class="'+(managementType==="unclaimed_businesses"?"active":"")+'">Unclaimed</button>':'')+'</div><form id="manageSearch" class="manage-toolbar"><input class="manage-search" name="search" value="'+esc(managementSearch)+'" placeholder="Search name, email or ID"><button>Search</button></form><div class="manage-view-controls"><label>Layout <select id="manageView"><option value="tiles">Tiles</option><option value="list">List</option></select></label><label>Show <select id="managePageSize"><option>10</option><option>20</option><option>30</option><option>50</option></select></label></div><div id="manageRows" class="manage-records '+(managementView==='tiles'?'manage-records-tiles':'manage-records-list')+'">'+records.map(x=>{let id=x.id,primary=managementType==="users"?(x.display_name||x.email||id):(x.name||id);if(managementType!=="users")return '<button type="button" class="record-card founder-business-tile" data-business-open="'+esc(id)+'"><span class="record-listing-head"><span class="record-listing-icon">'+(x.logo_path?'<img src="'+esc(curatedPublicUrl(x.logo_path))+'" alt="" loading="lazy" style="width:42px;height:42px;object-fit:cover;border-radius:10px">':'🏪')+'</span><span class="record-listing-text"><strong title="'+esc(primary)+'">'+esc(primary)+'</strong><small>'+esc(x.category||"Business")+' · '+esc(x.location||"Location not set")+'</small></span></span>'+(x.is_unclaimed||!x.owner_id?'<span class="unclaimed-tag">Unclaimed</span>':'<span class="claimed-tag">Claimed</span>')+'<span class="record-open-hint">Edit store →</span></button>';return '<details class="record-card" '+(managementType!=="users"?'data-business-card="'+esc(id)+'"':'')+'><summary><span class="record-listing-head"><span class="record-listing-icon">'+(x.logo_path?'<img src="'+esc(curatedPublicUrl(x.logo_path))+'" alt="" loading="lazy" style="width:42px;height:42px;object-fit:cover;border-radius:10px">':managementType==='users'?'👤':'🏪')+'</span><span class="record-listing-text"><strong title="'+esc(primary)+'">'+esc(primary)+'</strong><small title="'+esc(x.category||x.location||x.email||'')+'">'+esc((x.category||x.location||x.email||'')===primary?'Account profile':(x.category||x.location||x.email||''))+'</small></span></span>'+(managementType!=="users"?(x.is_unclaimed||!x.owner_id?' <span class="unclaimed-tag">Unclaimed</span>':' <span class="claimed-tag">Claimed</span>'):'')+' <span class="record-open-hint">'+(managementType==="users"?'Details':'Edit store')+' <span aria-hidden="true">⌄</span></span></summary><div class="record-id-line"><span>Record ID</span><code>'+esc(id)+'</code><button type="button" class="record-copy-id" data-copy-record-id="'+esc(id)+'">Copy ID</button></div><pre>'+esc(JSON.stringify(x,null,2))+'</pre><div class="record-actions"><button type="button" data-record-edit="'+esc(id)+'">Edit</button>'+(managementType==="curated"?'<button type="button" data-curated-full-edit="'+esc(id)+'">Full editor (photos, hours, pin)</button>':'')+'<button type="button" class="danger" data-record-delete="'+esc(id)+'">Delete</button></div><form class="record-edit" data-record-form="'+esc(id)+'" hidden>'+managementFields[managementType].map(k=>'<label>'+esc(k)+'<input name="'+esc(k)+'" value="'+esc(x[k]??"")+'"></label>').join('')+(managementType==="curated"?'<div class="record-photo-fields"><label>Profile / logo photo<input type="file" name="logoFile" accept="image/png,image/jpeg,image/webp"></label><label>Cover photo<input type="file" name="coverFile" accept="image/png,image/jpeg,image/webp"></label><label>Gallery photos (up to 8)<input type="file" name="galleryFiles" accept="image/png,image/jpeg,image/webp" multiple></label><p class="muted">Photos save to this listing after founder verification. Existing photos remain unless replaced.</p></div>':'')+'<div><button type="submit">Review changes</button> <button type="button" class="btn" data-record-cancel="'+esc(id)+'">Cancel</button></div></form></details>'}).join("")+'</div><div class="row manage-pagination"><button id="managePrev" '+(managementOffset===0?"disabled":"")+'>← Previous</button><span class="muted">Showing '+(records.length?managementOffset+1:0)+'–'+(managementOffset+records.length)+' · Page '+(Math.floor(managementOffset/managementPageSize)+1)+'</span><button id="manageNext" '+(records.length<managementPageSize?"disabled":"")+'>Next →</button></div></div>';
+ el.innerHTML='<div class="panel"><h2>'+esc(founderActiveSection==="users"?"Registered users":founderActiveSection==="listings"?"Community listings":"Registered businesses")+'</h2><p class="muted">Sensitive credentials are never displayed. Editing is limited to approved fields. Deletions are permanent and may cascade to linked records.</p><div class="management-tabs" role="group" aria-label="Business ownership filters">'+(founderActiveSection==="businesses"?'<button type="button" data-management="businesses" aria-pressed="'+(managementType==="businesses")+'" class="'+(managementType==="businesses"?"active":"")+'">All businesses</button><button type="button" data-management="unclaimed_businesses" aria-pressed="'+(managementType==="unclaimed_businesses")+'" class="'+(managementType==="unclaimed_businesses"?"active":"")+'">Unclaimed</button>':'')+'</div><div class="founder-management-toolbar"><form id="manageSearch" class="manage-toolbar"><input class="manage-search" type="search" name="search" aria-label="Search '+esc(founderManagementKind(managementType))+'" value="'+esc(managementSearch)+'" placeholder="'+(managementType==="users"?"Search name, email, username or ID":managementType==="curated"?"Search listing name or location":"Search business name, owner email or ID")+'"><button type="submit">Search</button></form><div class="manage-view-controls"><label>Layout <select id="manageView"><option value="list">List</option><option value="tiles">Tiles</option></select></label><label>Rows per page <select id="managePageSize"><option>10</option><option>20</option><option>30</option><option>50</option></select></label></div></div><div class="founder-management-summary" role="status"><span>'+(records.length?'Showing '+(managementOffset+1)+'–'+(managementOffset+records.length):'No records on this page')+'</span><span>Page '+(Math.floor(managementOffset/managementPageSize)+1)+'</span></div><div id="manageRows" class="manage-records '+(managementView==='tiles'?'manage-records-tiles':'manage-records-list')+'">'+records.map(x=>{let id=x.id,primary=managementType==="users"?(x.display_name||x.email||id):(x.name||id);if(managementType!=="users")return '<button type="button" class="record-card founder-business-tile" data-business-open="'+esc(id)+'"><span class="record-listing-head"><span class="record-listing-icon">'+(x.logo_path?'<img src="'+esc(curatedPublicUrl(x.logo_path))+'" alt="" loading="lazy" style="width:42px;height:42px;object-fit:cover;border-radius:10px">':'🏪')+'</span><span class="record-listing-text"><strong title="'+esc(primary)+'">'+esc(primary)+'</strong><small>'+esc(x.category||"Business")+' · '+esc(x.location||"Location not set")+'</small></span></span>'+founderRecordStatusUI(x,managementType)+'<span class="record-open-hint">Edit store →</span></button>';return '<details class="record-card" '+(managementType!=="users"?'data-business-card="'+esc(id)+'"':'')+'><summary><span class="record-listing-head"><span class="record-listing-icon">'+(x.logo_path?'<img src="'+esc(curatedPublicUrl(x.logo_path))+'" alt="" loading="lazy" style="width:42px;height:42px;object-fit:cover;border-radius:10px">':managementType==='users'?'👤':'🏪')+'</span><span class="record-listing-text"><strong title="'+esc(primary)+'">'+esc(primary)+'</strong><small title="'+esc(x.category||x.location||x.email||'')+'">'+esc((x.category||x.location||x.email||'')===primary?'Account profile':(x.category||x.location||x.email||''))+'</small></span></span>'+founderRecordStatusUI(x,managementType)+' <span class="record-open-hint">'+(managementType==="users"?'Details':'Edit store')+' <span aria-hidden="true">⌄</span></span></summary><div class="record-id-line"><span>Record ID</span><code>'+esc(id)+'</code><button type="button" class="record-copy-id" data-copy-record-id="'+esc(id)+'">Copy ID</button></div><pre>'+esc(JSON.stringify(x,null,2))+'</pre><div class="record-actions"><button type="button" data-record-edit="'+esc(id)+'">Edit</button>'+(managementType==="curated"?'<button type="button" data-curated-full-edit="'+esc(id)+'">Full editor (photos, hours, pin)</button>':'')+'<button type="button" class="danger" data-record-delete="'+esc(id)+'">Delete</button></div><form class="record-edit" data-record-form="'+esc(id)+'" hidden>'+managementFields[managementType].map(k=>'<label>'+esc(k)+'<input name="'+esc(k)+'" value="'+esc(x[k]??"")+'"></label>').join('')+(managementType==="curated"?'<div class="record-photo-fields"><label>Profile / logo photo<input type="file" name="logoFile" accept="image/png,image/jpeg,image/webp"></label><label>Cover photo<input type="file" name="coverFile" accept="image/png,image/jpeg,image/webp"></label><label>Gallery photos (up to 8)<input type="file" name="galleryFiles" accept="image/png,image/jpeg,image/webp" multiple></label><p class="muted">Photos save to this listing after founder verification. Existing photos remain unless replaced.</p></div>':'')+'<div><button type="submit">Review changes</button> <button type="button" class="btn" data-record-cancel="'+esc(id)+'">Cancel</button></div></form></details>'}).join("")+'</div>'+(records.length?"":founderManagementEmpty(founderManagementKind(managementType),managementSearch,managementOffset>0))+'<div class="row manage-pagination" '+(managementOffset===0&&records.length<managementPageSize?"hidden":"")+'><button type="button" id="managePrev" '+(managementOffset===0?"disabled":"")+'>← Previous</button><button type="button" id="manageNext" '+(records.length<managementPageSize?"disabled":"")+'>Next →</button></div></div>';
  $("manageView").value=managementView;$("managePageSize").value=String(managementPageSize);
  $("manageView").onchange=e=>{managementView=e.target.value;loadRecordManagement()};
  $("managePageSize").onchange=e=>{managementPageSize=Number(e.target.value);managementOffset=0;loadRecordManagement()};
@@ -449,10 +558,10 @@ async function loadFounderLogs(){
 }
 
 const curatedDays=["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
-let curatedEditorRecords=[],curatedEditorActive=null,curatedEditorGallery=[];let curatedView='tiles',curatedPageSize=10,curatedPage=0,curatedSearch='';
+let curatedEditorRecords=[],curatedEditorActive=null,curatedEditorGallery=[];let curatedView='list',curatedPageSize=10,curatedPage=0,curatedSearch='';
 const curatedPublicUrl=p=>p?db.storage.from("bizhunt-business-media").getPublicUrl(p).data.publicUrl:"";
 async function loadCuratedEditor(){
- const el=$("curatedEditorBody");el.innerHTML='<p class="muted">Loading listings…</p>';
+ const el=$("curatedEditorBody");el.innerHTML='<div class="founder-management-state" role="status">Loading listings…</div>';
  const records=[];const pageSize=100;
  for(let offset=0;;offset+=pageSize){
   const page=await db.rpc("bizhunt_founder_curated_records",{p_search:"",p_limit:pageSize,p_offset:offset});
@@ -470,7 +579,7 @@ async function loadCuratedEditor(){
  }
  const byId=new Map(mediaRows.map(x=>[String(x.id),x]));
  curatedEditorRecords=records.map(x=>({...x,...(byId.get(String(x.id))||{})}));
- el.innerHTML='<div class="curated-editor-toolbar"><button type="button" id="newCuratedListing">+ Add listing</button><label class="curated-search-label"><input id="curatedSearch" type="search" aria-label="Search listings" placeholder="Search name, category or location"></label><div class="curated-editor-options"><label>View <select id="curatedView"><option value="tiles">Tiles</option><option value="list">List</option></select></label><label>Show <select id="curatedPageSize"><option>10</option><option>20</option><option>30</option><option>50</option></select></label></div></div><div id="curatedCreateHost"></div><div id="curatedListingResults"></div><div id="curatedEditorFormHost"></div>';
+ el.innerHTML='<div class="curated-editor-toolbar founder-management-toolbar"><label class="curated-search-label"><input id="curatedSearch" type="search" aria-label="Search listings" placeholder="Search name, category or location"></label><div class="curated-editor-options"><label>Layout <select id="curatedView"><option value="list">List</option><option value="tiles">Tiles</option></select></label><label>Rows per page <select id="curatedPageSize"><option>10</option><option>20</option><option>30</option><option>50</option></select></label></div><button type="button" id="newCuratedListing">+ Add listing</button></div><div id="curatedCreateHost"></div><div id="curatedListingResults"></div><div id="curatedEditorFormHost"></div>';
  $("newCuratedListing").onclick=showCuratedCreate;
  $("curatedSearch").value=curatedSearch;$("curatedSearch").oninput=e=>{curatedSearch=e.target.value;curatedPage=0;renderCuratedListings()};
  $("curatedView").value=curatedView;$("curatedPageSize").value=String(curatedPageSize);
@@ -483,11 +592,11 @@ function renderCuratedListings(){
  const query=curatedSearch.trim().toLocaleLowerCase(),filtered=curatedEditorRecords.filter(x=>!query||[x.name,x.category,x.location].some(v=>String(v||"").toLocaleLowerCase().includes(query)));
  const total=filtered.length,maxPage=Math.max(0,Math.ceil(total/curatedPageSize)-1);curatedPage=Math.min(curatedPage,maxPage);
  const start=curatedPage*curatedPageSize,rows=filtered.slice(start,start+curatedPageSize);
- host.innerHTML='<div class="curated-results-summary"><span>'+ (total?('Showing '+(start+1)+'–'+Math.min(start+curatedPageSize,total)+' of '+total+' listings'):'No matching listings')+'</span><span>Page '+(curatedPage+1)+' of '+(maxPage+1)+'</span></div>'+
+ host.innerHTML='<div class="curated-results-summary founder-management-summary" role="status"><span>'+ (total?('Showing '+(start+1)+'–'+Math.min(start+curatedPageSize,total)+' of '+total+' listings'):'No listings on this page')+'</span>'+(total?'<span>Page '+(curatedPage+1)+' of '+(maxPage+1)+'</span>':'')+'</div>'+
  '<div class="curated-results '+(curatedView==='tiles'?'curated-results-tiles':'curated-results-list')+'">'+rows.map(x=>{
  const photo=x.logo_path?'<img class="curated-result-image" src="'+esc(curatedPublicUrl(x.logo_path))+'" alt="">':'<span class="curated-result-placeholder" aria-hidden="true">🏪</span>';
- return '<button type="button" class="curated-result '+(curatedEditorActive&&String(curatedEditorActive.id)===String(x.id)?'is-selected':'')+'" data-curated-id="'+esc(x.id)+'">'+photo+'<span class="curated-result-copy"><strong>'+esc(x.name)+'</strong><small>'+esc(x.category||'Other')+' · '+esc(x.location||'Location not provided')+'</small>'+(x.archived_at?'<em>Archived</em>':'')+'</span><span class="curated-result-edit">Edit →</span></button>'
- }).join('')+'</div><div class="curated-pagination"><button type="button" id="curatedPrev" '+(curatedPage===0?'disabled':'')+'>Previous</button><button type="button" id="curatedNext" '+(curatedPage>=maxPage?'disabled':'')+'>Next</button></div>';
+ return '<button type="button" class="curated-result '+(curatedEditorActive&&String(curatedEditorActive.id)===String(x.id)?'is-selected':'')+'" data-curated-id="'+esc(x.id)+'"'+(curatedEditorActive&&String(curatedEditorActive.id)===String(x.id)?' aria-current="true"':'')+'>'+photo+'<span class="curated-result-copy"><strong>'+esc(x.name)+'</strong><small>'+esc(x.category||'Other')+' · '+esc(x.location||'Location not provided')+'</small>'+'</span>'+founderRecordStatusUI(x,"curated")+'<span class="curated-result-edit">Edit →</span></button>'
+ }).join('')+'</div>'+(rows.length?'':founderManagementEmpty("listings",query))+'<div class="curated-pagination" '+(maxPage===0?'hidden':'')+'><button type="button" id="curatedPrev" '+(curatedPage===0?'disabled':'')+'>Previous</button><button type="button" id="curatedNext" '+(curatedPage>=maxPage?'disabled':'')+'>Next</button></div>';
  host.querySelectorAll('[data-curated-id]').forEach(button=>button.onclick=()=>{showCuratedEditor(button.dataset.curatedId);renderCuratedListings();$("curatedEditorFormHost").scrollIntoView({behavior:"smooth",block:"start"})});
  $("curatedPrev").hidden=maxPage===0;$("curatedNext").hidden=maxPage===0;
  $("curatedPrev").onclick=()=>{curatedPage--;renderCuratedListings()};
